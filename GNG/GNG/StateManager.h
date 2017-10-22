@@ -22,5 +22,6 @@ private:
 	GameState* currentState;
 	RenderWindow* window;
 
+	int stepCount = 0;
 };
 

@@ -1,4 +1,4 @@
 ﻿  StateManager.cpp
-e:\gng\gng\gng\statemanager.cpp(31): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\statemanager.cpp(35): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\statemanager.cpp(36): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\statemanager.cpp(40): warning C4018: '<': signed/unsigned mismatch
   GNG.vcxproj -> E:\GNG\GNG\Debug\GNG.exe

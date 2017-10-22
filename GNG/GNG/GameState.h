@@ -13,7 +13,10 @@ public:
 	GameState();
 	~GameState();
 
-	vector<Drawable> background;
-	vector<Mob> mobs;
+	void processEvent(Event e);
+	void step(int stepCount);
+
+	vector<Drawable*> background;
+	vector<Mob*> mobs;
 };
 
