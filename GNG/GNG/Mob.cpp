@@ -23,9 +23,10 @@ void Mob::setSprite(string textureName, float x, float y, float width, float hei
 		cout << "error loading texture: " << textureName << endl;
 	}
 	
-	this->name = textureName;
-	this->size = texture.getSize();
-	setTexture(texture);
+	name = textureName;
+	size = texture.getSize();
+	mobTexture = texture;
+	setTexture(mobTexture);
 	if (width > 0 || height > 0) {
 		setTextureRect(IntRect(x, y, width, height));
 	}

@@ -6,7 +6,7 @@
 using namespace std;
 using namespace sf;
 
-class Mob : Sprite
+class Mob : public Sprite
 {
 public:
 	Mob();
@@ -18,6 +18,7 @@ public:
 
 private:
 	string name;
+	Texture mobTexture;
 	Vector2f velocity = Vector2f(0, 0);
 	Vector2u size = Vector2u(0, 0);
 	int life = 1;
