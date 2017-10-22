@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "StateManager.h"
-#include <SFML\Graphics.hpp>
-#include <iostream>
 #include "Mob.h"
 #include "ScreenLetter.h"
+#include <ctime>
+#include <SFML\Graphics.hpp>
+#include <iostream>
 
 using namespace sf;
 using namespace std;
@@ -20,8 +21,10 @@ StateManager::StateManager(string name, int width, int height) {
 StateManager::~StateManager() {
 }
 
-void StateManager::start() {
+int StateManager::start() {
+	startTime = clock();
 
+	return gameLoop();
 }
 
 void StateManager::quit() {
@@ -48,18 +51,22 @@ int StateManager::gameLoop() {
 
 	while (window->isOpen())
 	{
-		Event event;
-		while (window->pollEvent(event))
-		{
-			if (event.type == Event::Closed)
-				window->close();
-			else
-				currentState->processEvent(event);
-		}
+		clock_t t = clock() - startTime;
+		if ((double)t > maxFPS * stepCount) {
+			cout << "\n " << stepCount << ", " << (double)t << endl;
+			Event event;
+			while (window->pollEvent(event))
+			{
+				if (event.type == Event::Closed)
+					window->close();
+				else
+					currentState->processEvent(event);
+			}
 
-		currentState->step(stepCount);
-		draw();
-		stepCount++;
+			currentState->step(stepCount);
+			draw();
+			stepCount++;
+		}
 	}
 
 	return 0;

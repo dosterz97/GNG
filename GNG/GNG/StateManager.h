@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include "GameState.h"
 #include <string>
+#include <ctime>
 
 using namespace sf;
 using namespace std;
@@ -13,15 +14,17 @@ public:
 	StateManager(string name, int width, int height);
 	~StateManager();
 
-	void start();
+	int start();
 	void quit();
+
+private:
 	int gameLoop();
 	void draw();
 
-private:
+	int maxFPS = 30;
 	GameState* currentState;
 	RenderWindow* window;
-
+	clock_t startTime;
 	int stepCount = 0;
 };
 
