@@ -29,6 +29,7 @@ void Mob::setSprite(string textureName, float x, float y, float width, float hei
 	setTexture(mobTexture);
 	if (width > 0 || height > 0) {
 		setTextureRect(IntRect(x, y, width, height));
+		size = Vector2u(width, height);
 	}
 }
 

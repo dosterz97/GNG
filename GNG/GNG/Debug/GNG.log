@@ -1,6 +1,3 @@
-﻿  StateManager.cpp
-e:\gng\gng\gng\statemanager.cpp(37): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\statemanager.cpp(41): warning C4018: '<': signed/unsigned mismatch
-  GNG.cpp
-  Generating Code...
+﻿  GameState.cpp
+e:\gng\gng\gng\gamestate.cpp(39): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
   GNG.vcxproj -> E:\GNG\GNG\Debug\GNG.exe

@@ -2,12 +2,15 @@
 #include "StateManager.h"
 #include "Mob.h"
 #include "ScreenLetter.h"
+
 #include <ctime>
 #include <SFML\Graphics.hpp>
 #include <iostream>
 
 using namespace sf;
 using namespace std;
+
+
 StateManager::StateManager() {
 	this->window = new RenderWindow(sf::VideoMode(800, 600), "My window");
 	this->currentState = new GameState();
@@ -31,6 +34,11 @@ void StateManager::quit() {
 
 }
 
+Vector2u StateManager::getScreenSize()
+{
+	return this->window->getSize();
+}
+
 void StateManager::draw() {
 	window->clear();
 
@@ -40,6 +48,10 @@ void StateManager::draw() {
 
 	for (int i = 0; i < currentState->background.size(); i++) {
 		window->draw(*currentState->background.at(i));
+	}
+
+	for (int i = 0; i < currentState->blocks.size(); i++) {
+		window->draw(*currentState->blocks.at(i));
 	}
 
 	window->display();
@@ -53,7 +65,6 @@ int StateManager::gameLoop() {
 	{
 		clock_t t = clock() - startTime;
 		if ((double)t > maxFPS * stepCount) {
-			cout << "\n " << stepCount << ", " << (double)t << endl;
 			Event event;
 			while (window->pollEvent(event))
 			{

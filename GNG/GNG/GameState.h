@@ -3,9 +3,17 @@
 #include <SFML\Graphics.hpp>
 #include "Mob.h"
 #include <vector>
+#include "Block.h"
 
 using namespace sf;
 using namespace std; 
+
+enum Level {
+	home,
+	one1,
+	one2,
+	one3
+};
 
 class GameState
 {
@@ -15,8 +23,11 @@ public:
 
 	void processEvent(Event e);
 	void step(int stepCount);
-
+	void loadLevel(Level level = home);
 	vector<Drawable*> background;
 	vector<Mob*> mobs;
+	vector<Block*> blocks;
+private: 
+	Level level;
 };
 
