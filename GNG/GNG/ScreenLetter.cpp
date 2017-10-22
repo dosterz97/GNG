@@ -184,6 +184,22 @@ void ScreenLetter::setLetter(Letter letter) {
 		x = 100;
 		y = 0;
 		break;
+	case equals:
+		x = 117;
+		y = 101;
+		break;
+	case and:
+		x = 54;
+		y = 92;
+		break;
+	case comma:
+		x = 108;
+		y = 93;
+		break;
+	case PLUS:
+		x = 99;
+		y = 93;
+		break;
 	default:
 		//x = 0;
 		//y = 0;

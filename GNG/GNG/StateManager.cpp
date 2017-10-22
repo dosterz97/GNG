@@ -4,12 +4,14 @@
 #include "ScreenLetter.h"
 
 #include <ctime>
+#include <ratio>
+#include <chrono>
 #include <SFML\Graphics.hpp>
 #include <iostream>
 
 using namespace sf;
 using namespace std;
-
+using namespace chrono;
 
 StateManager::StateManager() {
 	this->window = new RenderWindow(sf::VideoMode(800, 600), "My window");
@@ -25,7 +27,7 @@ StateManager::~StateManager() {
 }
 
 int StateManager::start() {
-	startTime = clock();
+	startTime = high_resolution_clock::now();
 
 	return gameLoop();
 }
@@ -42,17 +44,15 @@ Vector2u StateManager::getScreenSize()
 void StateManager::draw() {
 	window->clear();
 
-	for (int i = 0; i < currentState->mobs.size(); i++) {
+	for (int i = 0; i < currentState->mobs.size(); i++) 
 		window->draw(*currentState->mobs.at(i));
-	}
-
-	for (int i = 0; i < currentState->background.size(); i++) {
+	for (int i = 0; i < currentState->background.size(); i++) 
 		window->draw(*currentState->background.at(i));
-	}
-
-	for (int i = 0; i < currentState->blocks.size(); i++) {
+	for (int i = 0; i < currentState->blocks.size(); i++) 
 		window->draw(*currentState->blocks.at(i));
-	}
+	for (int i = 0; i < currentState->screenMessage->size(); i++)
+		window->draw(*currentState->screenMessage->at(i));
+	
 
 	window->display();
 }
@@ -63,8 +63,10 @@ int StateManager::gameLoop() {
 
 	while (window->isOpen())
 	{
-		clock_t t = clock() - startTime;
-		if ((double)t > maxFPS * stepCount) {
+		duration<double> time_span = duration_cast<duration<double>>(high_resolution_clock::now() - startTime);
+		if (time_span.count() >  1.0 / maxFPS * stepCount) {
+			//cout << time_span.count() << endl;
+			//cout << "steps: " << stepCount << endl;
 			Event event;
 			while (window->pollEvent(event))
 			{
@@ -73,10 +75,12 @@ int StateManager::gameLoop() {
 				else
 					currentState->processEvent(event);
 			}
-
 			currentState->step(stepCount);
 			draw();
 			stepCount++;
+		}
+		else {
+			//cout << "TOO FAST" << endl;
 		}
 	}
 

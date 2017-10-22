@@ -12,7 +12,10 @@ enum Letter {
 	one, two, three,
 	four, five, six,
 	seven, eight, nine,
-	zero, topscore, TIME, player1, space
+	zero, topscore, TIME,
+	player1, space,
+	equals, and, comma,
+	PLUS
 };
 
 

@@ -28,6 +28,10 @@ public:
 	vector<Drawable*> background;
 	vector<Mob*> mobs;
 	vector<Block*> blocks;
+	vector<Block*>* screenMessage;
+	vector<vector<Block*>> screenRotatingMessages;
+	
+
 private: 
 	void clearVectors();
 	Level level;

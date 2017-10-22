@@ -13,11 +13,6 @@ using namespace std;
 GameState::GameState() {
 }
 
-//GameState::GameState(StateManager myManager) {
-	//manager = myManager;
-//}
-
-
 GameState::~GameState() {
 }
 
@@ -91,6 +86,35 @@ void GameState::loadLevel(Level level) {
 			letter->setPosition(40 + offset , screenH - letter->getGlobalBounds().height - 5);
 			this->blocks.push_back(letter);
 		}
+
+		//rotating messages
+		screenRotatingMessages.resize(3);
+
+		arraySize = 25;
+		Letter toMove[] = { A,R,R,O,W,space, K,E,Y,S,space, equals,space, M,O,V,E,space,and,space,C,L,I,M,B };
+		for (int i = 0; i < arraySize; i++) {
+			ScreenLetter* letter = new ScreenLetter(toMove[i]);
+			int offset = (i - arraySize / 2) * (letterSpacing + letter->getGlobalBounds().width);
+			letter->setPosition(screenW / 2 + (offset), screenH / 4 * 3);
+			this->screenRotatingMessages.at(0).push_back(letter);
+		}
+
+		arraySize = 22;
+		Letter jumptAndAttack[] = { S,P,A,C,E,space,equals,space,J,U,M,P,comma,space,F,space,equals,space,F,I,R,E };
+		for (int i = 0; i < arraySize; i++) {
+			ScreenLetter* letter = new ScreenLetter(jumptAndAttack[i]);
+			int offset = (i - arraySize / 2) * (letterSpacing + letter->getGlobalBounds().width);
+			letter->setPosition(screenW / 2 + (offset), screenH / 4 * 3);
+			this->screenRotatingMessages.at(1).push_back(letter);
+		}
+		arraySize = 24;
+		Letter madeBy[] = { C,PLUS,PLUS,space,V,E,R,S,I,O,N,space,M,A,D,E,space,B,Y,space,Z,A,C,H };
+		for (int i = 0; i < arraySize; i++) {
+			ScreenLetter* letter = new ScreenLetter(madeBy[i]);
+			int offset = (i - arraySize / 2) * (letterSpacing + letter->getGlobalBounds().width);
+			letter->setPosition(screenW / 2 + (offset), screenH / 4 * 3);
+			this->screenRotatingMessages.at(2).push_back(letter);
+		}
 		break;
 	}
 
@@ -100,7 +124,7 @@ void GameState::loadLevel(Level level) {
 }
 
 void GameState::updateHomeScreen(int stepCount) {
-
+	screenMessage = &screenRotatingMessages.at((stepCount / StateManager::maxFPS % 3));
 }
 
 //clears the vectors that are used for drawing
@@ -112,8 +136,12 @@ void GameState::clearVectors() {
 		delete blocks.at(i);
 	for (int i = 0; i < background.size(); i++)
 		delete background.at(i);
+	for (int i = 0; i < screenRotatingMessages.size(); i++)
+		for (int k = 0; k < screenRotatingMessages.at(i).size(); k++) 
+			delete screenRotatingMessages.at(i).at(k);
 
 	mobs.clear();
 	blocks.clear();
 	background.clear();
+	screenRotatingMessages.clear();
 }
