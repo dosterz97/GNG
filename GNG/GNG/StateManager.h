@@ -12,7 +12,7 @@ class StateManager
 public:
 public:
 	static StateManager &shared() {
-		static StateManager manager; return manager;
+		static StateManager manager("Ghost N Goblins", 800, 800); return manager;
 	}
 
 	int start();

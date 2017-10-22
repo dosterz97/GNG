@@ -1,3 +1,25 @@
 ﻿  GameState.cpp
-e:\gng\gng\gng\gamestate.cpp(39): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(52): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(60): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(69): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(79): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(80): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(90): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(91): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(91): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(109): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(111): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(113): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Compiling...
+  StateManager.cpp
+e:\gng\gng\gng\statemanager.cpp(45): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\statemanager.cpp(49): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\statemanager.cpp(53): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  GNG.cpp
   GNG.vcxproj -> E:\GNG\GNG\Debug\GNG.exe

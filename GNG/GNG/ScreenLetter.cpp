@@ -18,7 +18,7 @@ ScreenLetter::~ScreenLetter() {
 }
 
 void ScreenLetter::setLetter(Letter letter) {
-	int x, y;
+	int x, y, width = 8, height = 8;
 	
 	switch (letter) {
 	case A:
@@ -83,58 +83,119 @@ void ScreenLetter::setLetter(Letter letter) {
 		break;
 	case P:
 		x = 0;
-		y = 118;
+		y = 119;
 		break;
 	case Q:
 		x = 9;
-		y = 118;
+		y = 119;
 		break;
 	case R:
 		x = 18;
-		y = 118;
+		y = 119;
 		break;
 	case S:
 		x = 27;
-		y = 118;
+		y = 119;
 		break;
 	case T:
 		x = 36;
-		y = 118;
+		y = 119;
 		break;
 	case U:
 		x = 45;
-		y = 118;
+		y = 119;
 		break;
 	case V:
 		x = 54;
-		y = 118;
+		y = 119;
 		break;
 	case W:
 		x = 63;
-		y = 118;
+		y = 119;
 		break;
 	case X:
 		x = 72;
-		y = 118;
+		y = 119;
 		break;
 	case Y:
 		x = 81;
-		y = 118;
+		y = 119;
 		break;
 	case Z:
 		x = 90;
-		y = 118;
+		y = 119;
+		break;
+	case zero:
+		x = 99;
+		y = 30;
+		break;
+	case one:
+		x = 108;
+		y = 30;
+		break;
+	case two:
+		x = 117;
+		y = 30;
+		break;
+	case three:
+		x = 126;
+		y = 30;
+		break;
+	case four:
+		x = 135;
+		y = 30;
+		break;
+	case five:
+		x = 144;
+		y = 30;
+		break;
+	case six:
+		x = 153;
+		y = 30;
+		break;
+	case seven:
+		x = 162;
+		y = 30;
+		break;
+	case eight:
+		x = 171;
+		y = 30;
+		break;
+	case nine:
+		x = 180;
+		y = 30;
+		break;
+	case topscore:
+		x = 100;
+		y = 22;
+		width = 75;
+		break;
+	case TIME:
+		x = 64;
+		y = 22;
+		width = 34;
+		break;
+	case player1:
+		x = 4;
+		y = 22;
+		width = 55;
+		break;
+	case space:
+		x = 100;
+		y = 0;
 		break;
 	default:
+		//x = 0;
+		//y = 0;
 		break;
 	}
 
 	sf::Texture texture;
 	string misc = "../Resources/misc.png";
-	if (!texture.loadFromFile(misc, IntRect(x, y, 8 , 8))) {
+	if (!texture.loadFromFile(misc, IntRect(x, y, width, height))) {
 		cout << "error loading texture: " << misc << endl;
 	}
 	letterTexture = texture;
 	setTexture(letterTexture);
-	setScale(sf::Vector2f(4, 4));
+	setScale(sf::Vector2f(scaler, scaler));
 }

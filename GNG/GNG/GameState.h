@@ -24,10 +24,13 @@ public:
 	void processEvent(Event e);
 	void step(int stepCount);
 	void loadLevel(Level level = home);
+	void updateHomeScreen(int stepCount);
 	vector<Drawable*> background;
 	vector<Mob*> mobs;
 	vector<Block*> blocks;
 private: 
+	void clearVectors();
 	Level level;
+	int stepCount;
 };
 
