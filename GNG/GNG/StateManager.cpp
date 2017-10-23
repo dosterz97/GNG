@@ -52,7 +52,6 @@ void StateManager::draw() {
 		window->draw(*currentState->blocks.at(i));
 	for (int i = 0; i < currentState->screenMessage->size(); i++)
 		window->draw(*currentState->screenMessage->at(i));
-	
 
 	window->display();
 }

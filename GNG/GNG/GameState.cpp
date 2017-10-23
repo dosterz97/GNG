@@ -6,6 +6,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <fstream>
 
 using namespace sf;
 using namespace std;
@@ -17,7 +18,53 @@ GameState::~GameState() {
 }
 
 void GameState::processEvent(Event e) {
-	
+	switch (e.type) {
+	case Event::KeyPressed: {
+		switch (e.key.code) {
+		case Keyboard::Return:
+			if (level == home) {
+				setLevel(level1);
+			}
+			break;
+		case Keyboard::W:
+		case Keyboard::Up:
+			break;
+		case Keyboard::A:
+		case Keyboard::Left:
+			break;
+		case Keyboard::S:
+		case Keyboard::Down:
+			break;
+		case Keyboard::D:
+		case Keyboard::Right:
+			break;
+		case Keyboard::Space:
+			break;
+		}
+		break;
+	}
+	case Event::KeyReleased: {
+		switch (e.key.code) {
+		case Keyboard::Return:
+			break;
+		case Keyboard::W:
+		case Keyboard::Up:
+			break;
+		case Keyboard::A:
+		case Keyboard::Left:
+			break;
+		case Keyboard::S:
+		case Keyboard::Down:
+			break;
+		case Keyboard::D:
+		case Keyboard::Right:
+			break;
+		case Keyboard::Space:
+			break;
+		}
+		break;
+	}
+	}
 }
 
 void GameState::step(int stepCount) {
@@ -27,6 +74,10 @@ void GameState::step(int stepCount) {
 	if (level == home) {
 		updateHomeScreen(stepCount);
 	}
+
+
+
+	moveMobs();
 }
 
 
@@ -76,7 +127,6 @@ void GameState::loadLevel(Level level) {
 			this->blocks.push_back(letter);
 		}
 
-
 		//credit 1
 		arraySize = 8;
 		Letter credit1[] = { C,R,E,D,I,T,space,one };
@@ -107,6 +157,7 @@ void GameState::loadLevel(Level level) {
 			letter->setPosition(screenW / 2 + (offset), screenH / 4 * 3);
 			this->screenRotatingMessages.at(1).push_back(letter);
 		}
+
 		arraySize = 24;
 		Letter madeBy[] = { C,PLUS,PLUS,space,V,E,R,S,I,O,N,space,M,A,D,E,space,B,Y,space,Z,A,C,H };
 		for (int i = 0; i < arraySize; i++) {
@@ -117,14 +168,38 @@ void GameState::loadLevel(Level level) {
 		}
 		break;
 	}
-
+	
+	case level1: {
+		clearVectors();
+		readMapFromFile("1.txt");
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 5; y++) {
+				switch (map[x][y]) {
+				case 0:
+					break;
+				case 1: {
+					Block* temp = new Block("finalStage.png", 0, 0, 20, 20);
+					temp->setPosition(x * temp->getGlobalBounds().width, y * temp->getGlobalBounds().height);
+					blocks.push_back(temp);
+					break;
+				}
+				case 2:
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		break;
+	}
 	default:
 		break;
 	}
 }
 
+//rotates the message on the home screen about every 2 seconds
 void GameState::updateHomeScreen(int stepCount) {
-	screenMessage = &screenRotatingMessages.at((stepCount / StateManager::maxFPS % 3));
+	screenMessage = &screenRotatingMessages.at((stepCount / (StateManager::maxFPS * 2)) % 3);
 }
 
 //clears the vectors that are used for drawing
@@ -144,4 +219,48 @@ void GameState::clearVectors() {
 	blocks.clear();
 	background.clear();
 	screenRotatingMessages.clear();
+}
+
+void GameState::moveMobs() {
+}
+
+void GameState::setLevel(Level newLevel) {
+	level = newLevel;
+	loadLevel(level);
+}
+
+vector<int> GameState::getIntsFromListSeperatedBySpaces(string list) {
+	vector<int> temp;
+
+	int start = 0;
+	int index = 0;
+	string subStr = "";
+	while (index < list.length()) {
+		if (list.at(index) == ' ') {
+			temp.push_back(atoi(subStr.c_str()));
+			start = index + 1;//index gets incremented after this
+		}
+		else {
+			subStr = list.substr(start, 1 + index - start);
+		}
+		index++;
+	}
+	return temp;
+}
+
+void GameState::readMapFromFile(string name) {
+	int lineNum = 0;
+	string line;
+	ifstream myfile("../Resources/maps/" + name);
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line))
+		{
+			vector<int> temp = getIntsFromListSeperatedBySpaces(line);
+			for (int i = 0; i < temp.size(); i++)
+				this->map[i][lineNum] = temp.at(i);
+			lineNum++;
+		}
+		myfile.close();
+	}
 }
