@@ -28,7 +28,8 @@ StateManager::~StateManager() {
 
 int StateManager::start() {
 	startTime = high_resolution_clock::now();
-
+	view = new View(sf::FloatRect(0, 0, getScreenSize().x, getScreenSize().y));
+	window->setView(*view);
 	return gameLoop();
 }
 
@@ -74,8 +75,9 @@ int StateManager::gameLoop() {
 				else
 					currentState->processEvent(event);
 			}
-			currentState->step(stepCount);
+			currentState->step(stepCount, view);
 			draw();
+			window->setView(*view);
 			stepCount++;
 		}
 		else {

@@ -26,7 +26,7 @@ public:
 	~GameState();
 
 	void processEvent(Event e);
-	void step(int stepCount);
+	void step(int stepCount, View* view);
 	void loadLevel(Level level = home);
 	void updateHomeScreen(int stepCount);
 	void moveMobs();
@@ -47,7 +47,8 @@ private:
 	void clearVectors();
 	Level level;
 	int stepCount;
-
+	Vector2f centerOfView = Vector2f(400, 400);
 	int map[mapWidthInBlocks][mapHeightInBlocks] = {};
+	bool canMove = false;
 };
 

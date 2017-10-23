@@ -32,6 +32,7 @@ private:
 	
 	GameState* currentState;
 	RenderWindow* window;
+	View* view;
 	high_resolution_clock::time_point startTime;
 	int stepCount = 0;
 

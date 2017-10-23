@@ -22,21 +22,34 @@ void GameState::processEvent(Event e) {
 	case Event::KeyPressed: {
 		switch (e.key.code) {
 		case Keyboard::Return:
-			if (level == home) {
+			if (level == home && level != level1) {
 				setLevel(level1);
+				canMove = true;
 			}
 			break;
 		case Keyboard::W:
 		case Keyboard::Up:
+			if (canMove) {
+				centerOfView.y -= 20;
+			}
 			break;
 		case Keyboard::A:
 		case Keyboard::Left:
+			if (canMove) {
+				centerOfView.x -= 20;
+			}
 			break;
 		case Keyboard::S:
 		case Keyboard::Down:
+			if (canMove) {
+				centerOfView.y += 20;
+			}
 			break;
 		case Keyboard::D:
 		case Keyboard::Right:
+			if (canMove) {
+				centerOfView.x += 20;
+			}
 			break;
 		case Keyboard::Space:
 			break;
@@ -67,7 +80,7 @@ void GameState::processEvent(Event e) {
 	}
 }
 
-void GameState::step(int stepCount) {
+void GameState::step(int stepCount, View* view) {
 	if (stepCount == 0) {
 		loadLevel(home);
 	}
@@ -75,7 +88,7 @@ void GameState::step(int stepCount) {
 		updateHomeScreen(stepCount);
 	}
 
-
+	view->setCenter(centerOfView);
 
 	moveMobs();
 }
