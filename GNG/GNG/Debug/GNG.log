@@ -16,11 +16,11 @@ e:\gng\gng\gng\gamestate.cpp(156): warning C4244: 'initializing': conversion fro
 e:\gng\gng\gng\gamestate.cpp(157): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 e:\gng\gng\gng\gamestate.cpp(165): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 e:\gng\gng\gng\gamestate.cpp(166): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(208): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(210): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(212): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(214): warning C4018: '<': signed/unsigned mismatch
 e:\gng\gng\gng\gamestate.cpp(215): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(238): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(260): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(217): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(219): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(221): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(222): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(245): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(267): warning C4018: '<': signed/unsigned mismatch
   GNG.vcxproj -> E:\GNG\GNG\Debug\GNG.exe

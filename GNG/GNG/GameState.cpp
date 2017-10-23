@@ -172,18 +172,25 @@ void GameState::loadLevel(Level level) {
 	case level1: {
 		clearVectors();
 		readMapFromFile("1.txt");
-		for (int x = 0; x < 8; x++) {
-			for (int y = 0; y < 5; y++) {
+		for (int y = 0; y < mapWidthInBlocks; y++) {
+			for (int x = 0; x < mapHeightInBlocks; x++) {
 				switch (map[x][y]) {
 				case 0:
 					break;
 				case 1: {
-					Block* temp = new Block("finalStage.png", 0, 0, 20, 20);
+					Block* temp = new Block("/blocks/dirt.bmp");
+					temp->setScale(0.5, 0.5);
 					temp->setPosition(x * temp->getGlobalBounds().width, y * temp->getGlobalBounds().height);
 					blocks.push_back(temp);
 					break;
 				}
-				case 2:
+				case 2: {
+					Block* temp = new Block("/blocks/grassdirt.bmp");
+					temp->setScale(0.5, 0.5);
+					temp->setPosition(x * temp->getGlobalBounds().width, y * temp->getGlobalBounds().height);
+					blocks.push_back(temp);
+					break;
+				}
 					break;
 				default:
 					break;
@@ -257,8 +264,9 @@ void GameState::readMapFromFile(string name) {
 		while (getline(myfile, line))
 		{
 			vector<int> temp = getIntsFromListSeperatedBySpaces(line);
-			for (int i = 0; i < temp.size(); i++)
+			for (int i = 0; i < temp.size(); i++) {
 				this->map[i][lineNum] = temp.at(i);
+			}
 			lineNum++;
 		}
 		myfile.close();

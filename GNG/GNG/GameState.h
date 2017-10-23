@@ -41,11 +41,13 @@ public:
 	void setLevel(Level newLevel);
 
 	static vector<int> getIntsFromListSeperatedBySpaces(string list);
+	static const int mapWidthInBlocks = 200;
+	static const int mapHeightInBlocks = 16;
 private: 
 	void clearVectors();
 	Level level;
 	int stepCount;
 
-	int map[400][20] = {};
+	int map[mapWidthInBlocks][mapHeightInBlocks] = {};
 };
 
