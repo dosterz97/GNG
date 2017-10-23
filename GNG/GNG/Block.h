@@ -5,6 +5,11 @@
 using namespace sf;
 using namespace std;
 
+enum Team {
+	background, none,
+	friendly, enemy
+};
+
 class Block : public Sprite
 {
 public:
@@ -15,8 +20,9 @@ public:
 
 	void setSprite(string textureName, float x = 0, float y = 0, float width = -1, float height = -1);
 	void moveBlock();
-
+	Team getTeam();
 private:
+	Team team = background;
 	string name;
 	Texture blockTexture;
 	Vector2f velocity = Vector2f(0, 0);

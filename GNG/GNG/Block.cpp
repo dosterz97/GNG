@@ -37,3 +37,8 @@ void Block::setSprite(string textureName, float x, float y, float width, float h
 
 void Block::moveBlock() {
 }
+
+Team Block::getTeam()
+{
+	return team;
+}

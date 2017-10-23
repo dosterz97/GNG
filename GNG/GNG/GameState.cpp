@@ -185,29 +185,80 @@ void GameState::loadLevel(Level level) {
 	case level1: {
 		clearVectors();
 		readMapFromFile("1.txt");
-		for (int y = 0; y < mapWidthInBlocks; y++) {
-			for (int x = 0; x < mapHeightInBlocks; x++) {
+		for (int y = 0; y < mapHeightInBlocks; y++) {
+			for (int x = 0; x < mapWidthInBlocks; x++) {
+				Block* temp = nullptr;
+				Block* temp2 = nullptr;
 				switch (map[x][y]) {
 				case 0:
 					break;
-				case 1: {
-					Block* temp = new Block("/blocks/dirt.bmp");
-					temp->setScale(0.5, 0.5);
-					temp->setPosition(x * temp->getGlobalBounds().width, y * temp->getGlobalBounds().height);
-					blocks.push_back(temp);
+				case 1: 
+					temp = new Block("/blocks/dirt.bmp");
+					break;
+				case 2:
+					temp = new Block("/blocks/grassdirt.bmp");
+					break;
+				case 3:
+					temp = new Block("/blocks/fence.png");
+					break;
+				case 4:
+					temp = new Block("/blocks/grave1.png");
+					break;
+				case 5:
+					temp = new Block("/blocks/grave2.png");
+					break;
+				case 6: {
+					temp = new Block("/blocks/fence.png");
+					temp2 = new Block("/blocks/tree1.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 3);
+					temp2->setScale(2, 2);
 					break;
 				}
-				case 2: {
-					Block* temp = new Block("/blocks/grassdirt.bmp");
-					temp->setScale(0.5, 0.5);
-					temp->setPosition(x * temp->getGlobalBounds().width, y * temp->getGlobalBounds().height);
-					blocks.push_back(temp);
+				case 7: {
+					temp = new Block("/blocks/fence.png");
+					temp2 = new Block("/blocks/tree2.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 2);
+					temp2->setScale(1.5, 1.5);
 					break;
 				}
+				case 8: {
+					temp = new Block("/blocks/fence.png");
+					temp2 = new Block("/blocks/tree1.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 3);
+					temp2->setScale(-2, 2);
 					break;
+				}
+				case 9: {
+					temp = new Block("/blocks/fence.png");
+					temp2 = new Block("/blocks/tree2.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 2);
+					temp2->setScale(-1.5, 1.5);
+					break;
+				}
+				case 10:
+					temp = new Block("/blocks/water.png");
 				default:
 					break;
 				}
+				if (temp2 != nullptr) {
+					if (temp2->getTeam() == 0)
+						background.push_back(temp2);
+					else
+						blocks.push_back(temp2);
+				}
+				if (temp != nullptr) {
+					temp->setScale(0.5, 0.5);
+					temp->setPosition(x * temp->getGlobalBounds().width, y * temp->getGlobalBounds().height);
+					if (temp->getTeam() == 0)
+						background.push_back(temp);
+					else 
+						blocks.push_back(temp);
+				}
+				
 			}
 		}
 		break;
