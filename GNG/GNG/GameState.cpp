@@ -89,13 +89,12 @@ void GameState::step(int stepCount, View* view) {
 		loadLevel(home);
 	}
 	moveMobs();
-
-	Vector2f center = Vector2f(player->getGlobalBounds().left + player->getGlobalBounds().width / 2, StateManager::shared().getScreenSize().y / 2);
+	checkCollisions();
 	if (level == home) {
-		center = Vector2f(StateManager::shared().getScreenSize().x / 2, StateManager::shared().getScreenSize().y / 2);
 		updateHomeScreen(stepCount);
 	}
-	view->setCenter(center);
+	
+	updateCenter(view);
 }
 
 
@@ -105,6 +104,7 @@ void GameState::loadLevel(Level level) {
 		double screenW = StateManager::shared().getScreenSize().x;
 		double screenH = StateManager::shared().getScreenSize().y;
 		clearVectors();
+		levelEnd = StateManager::shared().getScreenSize().x;
 
 		//Set up arthur
 		player = new Mob("arthur.png", 134, 600, 18, 30);
@@ -194,7 +194,7 @@ void GameState::loadLevel(Level level) {
 	
 	case level1: {
 		clearVectors();
-		
+		levelEnd = 1600;
 		//set up arthur
 		player->setPosition(100, (StateManager::shared().getScreenSize().y / 16 * 14 - player->getGlobalBounds().height));
 		mobs.push_back(player);
@@ -357,3 +357,80 @@ void GameState::readMapFromFile(string name) {
 		myfile.close();
 	}
 }
+
+void GameState::updateCenter(View* view) {
+	Vector2f center = Vector2f(player->getGlobalBounds().left + player->getGlobalBounds().width / 2, StateManager::shared().getScreenSize().y / 2);
+
+	if(level == home)
+		center = Vector2f(StateManager::shared().getScreenSize().x / 2, StateManager::shared().getScreenSize().y / 2);
+	else if (center.x < StateManager::shared().getScreenSize().x / 2) 
+		center.x = StateManager::shared().getScreenSize().x / 2;
+	else if (center.x + StateManager::shared().getScreenSize().x / 2 > levelEnd) 
+		center.x = levelEnd - StateManager::shared().getScreenSize().x / 2;
+
+
+	view->setCenter(center);
+}
+
+void GameState::checkCollisions() {
+	for (int k = 0; k < mobs.size(); k++) {
+		for (int i = 0; i < blocks.size(); i++) {
+			if (blocks.at(i)->getTeam() == none) {
+				if (blocks.at(i)->getGlobalBounds().intersects(mobs.at(k)->getGlobalBounds()))
+					fixCollision(mobs.at(k), blocks.at(i));
+			}
+		}
+	}
+}
+
+//in orientation in respect to the mob
+void GameState::fixCollision(Mob* m, Block* b) {
+	FloatRect mRect = m->getGlobalBounds();
+	FloatRect bRect = b->getGlobalBounds();
+
+	float rightDistance = bRect.left -(mRect.left + mRect.width);
+	float leftDistance = mRect.left - (bRect.left + bRect.width);
+	float topDistance = mRect.top - (bRect.top + bRect.height);
+	float bottomDistance = bRect.top - (mRect.top + mRect.height);
+
+	bool rightCollision = rightDistance < 0 && m->getVelocity().x > 0;
+	bool leftCollision = leftDistance < 0 && m->getVelocity().x < 0;
+	bool bottomCollision = bottomDistance < 0 && m->getVelocity().y > 0;
+	bool topCollision = topDistance < 0 && m->getVelocity().y < 0;
+
+
+	if (bottomCollision) {
+		/*cout << "bottom collision" << endl;
+		cout << "rightDistance: " << rightDistance << ", " << rightCollision << endl;
+		cout << "leftDistance: " << leftDistance << ", " << leftCollision << endl;
+		cout << "topDistance: " << topDistance << ", " << topCollision << endl;
+		cout << "bottomDistance: " << bottomDistance << ", " << bottomCollision << endl; */
+		m->move(0, bottomDistance);
+	}
+	else if (topCollision) {
+		/*cout << "top collision" << endl;
+		cout << "rightDistance: " << rightDistance << ", " << rightCollision << endl;
+		cout << "leftDistance: " << leftDistance << ", " << leftCollision << endl;
+		cout << "topDistance: " << topDistance << ", " << topCollision << endl;
+		cout << "bottomDistance: " << bottomDistance << ", " << bottomCollision << endl;*/
+		m->move(0, -topDistance);
+	}
+	else if (leftCollision) {
+		/*cout << "left collision" << endl;
+		cout << "rightDistance: " << rightDistance << ", " << rightCollision << endl;
+		cout << "leftDistance: " << leftDistance << ", " << leftCollision << endl;
+		cout << "topDistance: " << topDistance << ", " << topCollision << endl;
+		cout << "bottomDistance: " << bottomDistance << ", " << bottomCollision << endl; */
+		m->move(-leftDistance, 0);
+	}
+	else if (rightCollision) {
+		/*cout << "right collision" << endl;
+		cout << "rightDistance: " << rightDistance << ", " << rightCollision << endl;
+		cout << "leftDistance: " << leftDistance << ", " << leftCollision << endl;
+		cout << "topDistance: " << topDistance << ", " << topCollision << endl;
+		cout << "bottomDistance: " << bottomDistance << ", " << bottomCollision << endl; */
+		m->move(rightDistance, 0);
+	}
+}
+
+

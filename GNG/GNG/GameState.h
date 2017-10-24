@@ -31,6 +31,9 @@ public:
 	void updateHomeScreen(int stepCount);
 	void moveMobs();
 	void readMapFromFile(string name);
+	void updateCenter(View* view);
+	void checkCollisions();
+	void fixCollision(Mob* m, Block* b);
 
 	vector<Drawable*> background;
 	vector<Mob*> mobs;
@@ -51,5 +54,6 @@ private:
 	Vector2f centerOfView = Vector2f(400, 400);
 	int map[mapWidthInBlocks][mapHeightInBlocks] = {};
 	bool canMove = false;
+	int levelEnd = 0;
 };
 
