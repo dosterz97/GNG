@@ -45,14 +45,15 @@ Vector2u StateManager::getScreenSize()
 void StateManager::draw() {
 	window->clear();
 
-	for (int i = 0; i < currentState->mobs.size(); i++) 
-		window->draw(*currentState->mobs.at(i));
 	for (int i = 0; i < currentState->background.size(); i++) 
 		window->draw(*currentState->background.at(i));
 	for (int i = 0; i < currentState->blocks.size(); i++) 
 		window->draw(*currentState->blocks.at(i));
 	for (int i = 0; i < currentState->screenMessage->size(); i++)
 		window->draw(*currentState->screenMessage->at(i));
+	for (int i = 0; i < currentState->mobs.size(); i++)
+		if (currentState->mobs.at(i) != nullptr)
+			window->draw(*currentState->mobs.at(i));
 
 	window->display();
 }
@@ -76,8 +77,8 @@ int StateManager::gameLoop() {
 					currentState->processEvent(event);
 			}
 			currentState->step(stepCount, view);
-			draw();
 			window->setView(*view);
+			draw();
 			stepCount++;
 		}
 		else {

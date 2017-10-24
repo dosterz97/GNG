@@ -45,6 +45,7 @@ public:
 	static const int mapHeightInBlocks = 16;
 private: 
 	void clearVectors();
+	Mob* player;
 	Level level;
 	int stepCount;
 	Vector2f centerOfView = Vector2f(400, 400);

@@ -2,11 +2,12 @@
 
 #include <SFML\Graphics.hpp>
 #include <string.h>
+#include "Block.h"
 
 using namespace std;
 using namespace sf;
 
-class Mob : public Sprite
+class Mob : public Block
 {
 public:
 	Mob();
@@ -17,11 +18,7 @@ public:
 	void moveMob();
 
 private:
-	string name;
 	Texture mobTexture;
-	Vector2f velocity = Vector2f(0, 0);
-	Vector2u size = Vector2u(0, 0);
 	int life = 1;
-	float gravityMultiplier;
 };
 

@@ -30,25 +30,25 @@ void GameState::processEvent(Event e) {
 		case Keyboard::W:
 		case Keyboard::Up:
 			if (canMove) {
-				centerOfView.y -= 20;
+				player->setYVelocity(-20);
 			}
 			break;
 		case Keyboard::A:
 		case Keyboard::Left:
 			if (canMove) {
-				centerOfView.x -= 20;
+				player->setXVelocity(-20);
 			}
 			break;
 		case Keyboard::S:
 		case Keyboard::Down:
 			if (canMove) {
-				centerOfView.y += 20;
+				player->setYVelocity(20);
 			}
 			break;
 		case Keyboard::D:
 		case Keyboard::Right:
 			if (canMove) {
-				centerOfView.x += 20;
+				player->setXVelocity(20);
 			}
 			break;
 		case Keyboard::Space:
@@ -62,15 +62,19 @@ void GameState::processEvent(Event e) {
 			break;
 		case Keyboard::W:
 		case Keyboard::Up:
+			player->addToVelocity(Vector2f(0, -player->getVelocity().y));
 			break;
 		case Keyboard::A:
 		case Keyboard::Left:
+			player->addToVelocity(Vector2f(-player->getVelocity().x, 0));
 			break;
 		case Keyboard::S:
 		case Keyboard::Down:
+			player->addToVelocity(Vector2f(0, -player->getVelocity().y));
 			break;
 		case Keyboard::D:
 		case Keyboard::Right:
+			player->addToVelocity(Vector2f(-player->getVelocity().x, 0));
 			break;
 		case Keyboard::Space:
 			break;
@@ -84,13 +88,14 @@ void GameState::step(int stepCount, View* view) {
 	if (stepCount == 0) {
 		loadLevel(home);
 	}
+	moveMobs();
+
+	Vector2f center = Vector2f(player->getGlobalBounds().left + player->getGlobalBounds().width / 2, StateManager::shared().getScreenSize().y / 2);
 	if (level == home) {
+		center = Vector2f(StateManager::shared().getScreenSize().x / 2, StateManager::shared().getScreenSize().y / 2);
 		updateHomeScreen(stepCount);
 	}
-
-	view->setCenter(centerOfView);
-
-	moveMobs();
+	view->setCenter(center);
 }
 
 
@@ -100,6 +105,11 @@ void GameState::loadLevel(Level level) {
 		double screenW = StateManager::shared().getScreenSize().x;
 		double screenH = StateManager::shared().getScreenSize().y;
 		clearVectors();
+
+		//Set up arthur
+		player = new Mob("arthur.png", 134, 600, 18, 30);
+		player->setTeam(friendly);
+		player->setScale(3, 3);
 
 		//player 1 + score
 		int startX = 40;
@@ -184,6 +194,11 @@ void GameState::loadLevel(Level level) {
 	
 	case level1: {
 		clearVectors();
+		
+		//set up arthur
+		player->setPosition(100, (StateManager::shared().getScreenSize().y / 16 * 14 - player->getGlobalBounds().height));
+		mobs.push_back(player);
+
 		readMapFromFile("1.txt");
 		for (int y = 0; y < mapHeightInBlocks; y++) {
 			for (int x = 0; x < mapWidthInBlocks; x++) {
@@ -197,6 +212,7 @@ void GameState::loadLevel(Level level) {
 					break;
 				case 2:
 					temp = new Block("/blocks/grassdirt.bmp");
+					temp->setTeam(none);
 					break;
 				case 3:
 					temp = new Block("/blocks/fence.png");
@@ -261,6 +277,8 @@ void GameState::loadLevel(Level level) {
 				
 			}
 		}
+
+
 		break;
 	}
 	default:
@@ -293,6 +311,9 @@ void GameState::clearVectors() {
 }
 
 void GameState::moveMobs() {
+	for (int i = 0; i < mobs.size(); i++) {
+		mobs.at(i)->move(mobs.at(i)->getVelocity().x, mobs.at(i)->getVelocity().y);
+	}
 }
 
 void GameState::setLevel(Level newLevel) {

@@ -42,3 +42,32 @@ Team Block::getTeam()
 {
 	return team;
 }
+
+void Block::setTeam(Team t) {
+	this->team = t;
+}
+
+void Block::addToVelocity(Vector2f t)
+{
+	this->velocity += t;
+}
+
+void Block::setXVelocity(float t)
+{
+	this->velocity = Vector2f(t, velocity.y);
+}
+
+void Block::setYVelocity(float t)
+{
+	this->velocity = Vector2f(velocity.x, t);
+}
+
+Vector2f Block::getVelocity()
+{
+	return velocity;
+}
+
+void Block::setVelocity(Vector2f t)
+{
+	this->velocity = t;
+}

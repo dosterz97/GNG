@@ -10,7 +10,7 @@ Mob::Mob() {
 }
 
 Mob::Mob(string textureName, float x, float y, float width, float height) {
-	setSprite(textureName, x, y, width, height);
+	this->setSprite(textureName, x, y, width, height);
 }
 
 Mob::~Mob() {

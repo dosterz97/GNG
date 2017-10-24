@@ -1,41 +1,29 @@
 ﻿  GameState.cpp
-e:\gng\gng\gng\gamestate.cpp(107): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(111): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(113): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(119): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(128): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(129): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(138): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(139): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(148): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(149): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(149): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(160): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(161): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(169): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(170): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(178): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(179): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(279): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(281): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(283): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(285): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(286): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(309): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(93): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(95): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(118): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(122): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(124): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(130): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(139): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(140): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(149): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(150): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(159): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(160): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(160): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(171): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(172): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(180): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(181): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(189): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(190): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(298): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(300): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(302): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(304): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(305): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(315): warning C4018: '<': signed/unsigned mismatch
 e:\gng\gng\gng\gamestate.cpp(331): warning C4018: '<': signed/unsigned mismatch
-  Block.cpp
-e:\gng\gng\gng\block.cpp(33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-e:\gng\gng\gng\block.cpp(34): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-  Generating Code...
-  Compiling...
-  StateManager.cpp
-e:\gng\gng\gng\statemanager.cpp(31): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-e:\gng\gng\gng\statemanager.cpp(48): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\statemanager.cpp(50): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\statemanager.cpp(52): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\statemanager.cpp(54): warning C4018: '<': signed/unsigned mismatch
-  ScreenLetter.cpp
-e:\gng\gng\gng\screenletter.cpp(216): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  GNG.cpp
-  Generating Code...
+e:\gng\gng\gng\gamestate.cpp(353): warning C4018: '<': signed/unsigned mismatch
   GNG.vcxproj -> E:\GNG\GNG\Debug\GNG.exe

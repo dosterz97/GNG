@@ -17,11 +17,18 @@ public:
 	Block(string textureName, float x = 0, float y = 0, float width = -1, float height = -1);
 	~Block();
 	
-
 	void setSprite(string textureName, float x = 0, float y = 0, float width = -1, float height = -1);
 	void moveBlock();
+
 	Team getTeam();
-private:
+	void setTeam(Team t);
+
+	void addToVelocity(Vector2f t);
+	void setXVelocity(float t);
+	void setYVelocity(float t);
+	Vector2f getVelocity();
+	void setVelocity(Vector2f t);
+protected:
 	Team team = background;
 	string name;
 	Texture blockTexture;
