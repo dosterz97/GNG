@@ -4,6 +4,7 @@
 #include "Mob.h"
 #include <vector>
 #include "Block.h"
+#include "Quadtree.h"
 #include <string>
 
 using namespace sf;
@@ -34,6 +35,8 @@ public:
 	void updateCenter(View* view);
 	void checkCollisions();
 	void fixCollision(Mob* m, Block* b);
+	void fixCollision(Mob* m, Sprite* b);
+	void updateQuadtree();
 
 	vector<Drawable*> background;
 	vector<Mob*> mobs;
@@ -47,6 +50,7 @@ public:
 	static const int mapWidthInBlocks = 200;
 	static const int mapHeightInBlocks = 16;
 private: 
+	Quadtree* quadtree;
 	void clearVectors();
 	Mob* player;
 	Level level;

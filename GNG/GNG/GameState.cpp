@@ -89,6 +89,7 @@ void GameState::step(int stepCount, View* view) {
 		loadLevel(home);
 	}
 	moveMobs();
+	updateQuadtree();
 	checkCollisions();
 	if (level == home) {
 		updateHomeScreen(stepCount);
@@ -111,23 +112,26 @@ void GameState::loadLevel(Level level) {
 		player->setTeam(friendly);
 		player->setScale(3, 3);
 
+		//set up quadtree
+		quadtree = new Quadtree(0, FloatRect(0, 0, 1600, 800));// mapWidthInBlocks * 50, mapHeightInBlocks * 50));
+
 		//player 1 + score
 		int startX = 40;
 		ScreenLetter* player = new ScreenLetter(player1);
 		player->setPosition(startX, 5);
-		blocks.push_back(player);
+		background.push_back(player);
 
 		//top score + score
 		startX = screenW / 2;
 		ScreenLetter* topScore = new ScreenLetter(topscore); 
 		topScore->setPosition(startX, 5);
-		blocks.push_back(topScore);
+		background.push_back(topScore);
 
 		//title
 		Block* title = new Block("title.png");
 		title->setScale(2, 2);
 		title->setPosition(screenW / 2 - title->getGlobalBounds().width / 2, screenH / 4);
-		this->blocks.push_back(title);
+		this->background.push_back(title);
 
 		//press enter to start
 		int arraySize = 20;
@@ -137,7 +141,7 @@ void GameState::loadLevel(Level level) {
 			ScreenLetter* letter = new ScreenLetter(pressEnterToStartLetters[i]);
 			int offset = (i - arraySize / 2) * (letterSpacing + letter->getGlobalBounds().width);
 			letter->setPosition(screenW / 2 + (offset), screenH / 4 + title->getGlobalBounds().height + 40);
-			this->blocks.push_back(letter);
+			this->background.push_back(letter);
 		}
 
 		//1 coin 1 play
@@ -147,7 +151,7 @@ void GameState::loadLevel(Level level) {
 			ScreenLetter* letter = new ScreenLetter(oneCoinOnePlay[i]);
 			int offset = (i - arraySize / 2) * (letterSpacing + letter->getGlobalBounds().width);
 			letter->setPosition(screenW / 2 + (offset), screenH / 2);
-			this->blocks.push_back(letter);
+			this->background.push_back(letter);
 		}
 
 		//credit 1
@@ -157,7 +161,7 @@ void GameState::loadLevel(Level level) {
 			ScreenLetter* letter = new ScreenLetter(credit1[i]);
 			int offset = (letterSpacing + letter->getGlobalBounds().width) * i;
 			letter->setPosition(40 + offset , screenH - letter->getGlobalBounds().height - 5);
-			this->blocks.push_back(letter);
+			this->background.push_back(letter);
 		}
 
 		//rotating messages
@@ -310,6 +314,7 @@ void GameState::clearVectors() {
 	screenRotatingMessages.clear();
 }
 
+
 void GameState::moveMobs() {
 	for (int i = 0; i < mobs.size(); i++) {
 		mobs.at(i)->move(mobs.at(i)->getVelocity().x, mobs.at(i)->getVelocity().y);
@@ -344,10 +349,8 @@ void GameState::readMapFromFile(string name) {
 	int lineNum = 0;
 	string line;
 	ifstream myfile("../Resources/maps/" + name);
-	if (myfile.is_open())
-	{
-		while (getline(myfile, line))
-		{
+	if (myfile.is_open()) {
+		while (getline(myfile, line)) {
 			vector<int> temp = getIntsFromListSeperatedBySpaces(line);
 			for (int i = 0; i < temp.size(); i++) {
 				this->map[i][lineNum] = temp.at(i);
@@ -368,18 +371,34 @@ void GameState::updateCenter(View* view) {
 	else if (center.x + StateManager::shared().getScreenSize().x / 2 > levelEnd) 
 		center.x = levelEnd - StateManager::shared().getScreenSize().x / 2;
 
-
 	view->setCenter(center);
 }
 
 void GameState::checkCollisions() {
-	for (int k = 0; k < mobs.size(); k++) {
-		for (int i = 0; i < blocks.size(); i++) {
-			if (blocks.at(i)->getTeam() == none) {
-				if (blocks.at(i)->getGlobalBounds().intersects(mobs.at(k)->getGlobalBounds()))
-					fixCollision(mobs.at(k), blocks.at(i));
+	vector<Sprite*>* returnObjects = new vector<Sprite*>();
+	for (int i = 0; i < mobs.size(); i++) {
+		returnObjects->clear();
+		returnObjects = quadtree->retrieve(returnObjects, mobs.at(i));
+		if (returnObjects == NULL) {
+			for (int k = 0; k < blocks.size(); k++) {
+				if (blocks.at(i)->getTeam() == none) {
+					if (blocks.at(k)->getGlobalBounds().intersects(mobs.at(i)->getGlobalBounds()))
+						fixCollision(mobs.at(i), blocks.at(k));
+				}
 			}
 		}
+		else {
+			for (int x = 0; x < returnObjects->size(); x++) {
+				cout << "returnObject: " << x << ": " << returnObjects->at(x)->getGlobalBounds().left
+					<< ", " << returnObjects->at(x)->getGlobalBounds().top << endl;
+				if (mobs.at(i)->getGlobalBounds().intersects(returnObjects->at(x)->getGlobalBounds()))
+					fixCollision(mobs.at(i), returnObjects->at(x));
+			}
+		}
+	}
+	if (returnObjects != NULL) {
+		returnObjects->clear();
+		delete returnObjects;
 	}
 }
 
@@ -398,7 +417,6 @@ void GameState::fixCollision(Mob* m, Block* b) {
 	bool bottomCollision = bottomDistance < 0 && abs(bottomDistance) <= abs(m->getVelocity().y) && m->getVelocity().y > 0;
 	bool topCollision = topDistance < 0 && abs(topDistance) <= abs(m->getVelocity().y) && m->getVelocity().y < 0;
 
-
 	if (bottomCollision) 
 		m->move(0, bottomDistance);
 	else if (topCollision)
@@ -407,6 +425,39 @@ void GameState::fixCollision(Mob* m, Block* b) {
 		m->move(rightDistance, 0);
 	else if (leftCollision)
 		m->move(-leftDistance, 0);
+}
+
+//in orientation in respect to the mob
+void GameState::fixCollision(Mob* m, Sprite* b) {
+	FloatRect mRect = m->getGlobalBounds();
+	FloatRect bRect = b->getGlobalBounds();
+
+	float rightDistance = bRect.left - (mRect.left + mRect.width);
+	float leftDistance = mRect.left - (bRect.left + bRect.width);
+	float topDistance = mRect.top - (bRect.top + bRect.height);
+	float bottomDistance = bRect.top - (mRect.top + mRect.height);
+
+	bool rightCollision = rightDistance < 0 && abs(rightDistance) <= abs(m->getVelocity().x) && m->getVelocity().x > 0;
+	bool leftCollision = leftDistance < 0 && abs(leftDistance) <= abs(m->getVelocity().x) && m->getVelocity().x < 0;
+	bool bottomCollision = bottomDistance < 0 && abs(bottomDistance) <= abs(m->getVelocity().y) && m->getVelocity().y > 0;
+	bool topCollision = topDistance < 0 && abs(topDistance) <= abs(m->getVelocity().y) && m->getVelocity().y < 0;
+
+	if (bottomCollision)
+		m->move(0, bottomDistance);
+	else if (topCollision)
+		m->move(0, -topDistance);
+	if (rightCollision)
+		m->move(rightDistance, 0);
+	else if (leftCollision)
+		m->move(-leftDistance, 0);
+}
+
+void GameState::updateQuadtree() {
+	quadtree->clear();
+	for (int i = 0; i < mobs.size(); i++) 
+		quadtree->insert(mobs.at(i));
+	for (int i = 0; i < blocks.size(); i++) 
+		quadtree->insert(blocks.at(i));
 }
 
 

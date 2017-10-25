@@ -152,6 +152,7 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Mob.h" />
+    <ClInclude Include="Quadtree.h" />
     <ClInclude Include="ScreenLetter.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="stdafx.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GNG.cpp" />
     <ClCompile Include="Mob.cpp" />
+    <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="ScreenLetter.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="stdafx.cpp">
