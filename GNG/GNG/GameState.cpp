@@ -393,44 +393,20 @@ void GameState::fixCollision(Mob* m, Block* b) {
 	float topDistance = mRect.top - (bRect.top + bRect.height);
 	float bottomDistance = bRect.top - (mRect.top + mRect.height);
 
-	bool rightCollision = rightDistance < 0 && m->getVelocity().x > 0;
-	bool leftCollision = leftDistance < 0 && m->getVelocity().x < 0;
-	bool bottomCollision = bottomDistance < 0 && m->getVelocity().y > 0;
-	bool topCollision = topDistance < 0 && m->getVelocity().y < 0;
+	bool rightCollision = rightDistance < 0 && abs(rightDistance) <= abs(m->getVelocity().x) && m->getVelocity().x > 0;
+	bool leftCollision = leftDistance < 0 && abs(leftDistance) <= abs(m->getVelocity().x) && m->getVelocity().x < 0;
+	bool bottomCollision = bottomDistance < 0 && abs(bottomDistance) <= abs(m->getVelocity().y) && m->getVelocity().y > 0;
+	bool topCollision = topDistance < 0 && abs(topDistance) <= abs(m->getVelocity().y) && m->getVelocity().y < 0;
 
 
-	if (bottomCollision) {
-		/*cout << "bottom collision" << endl;
-		cout << "rightDistance: " << rightDistance << ", " << rightCollision << endl;
-		cout << "leftDistance: " << leftDistance << ", " << leftCollision << endl;
-		cout << "topDistance: " << topDistance << ", " << topCollision << endl;
-		cout << "bottomDistance: " << bottomDistance << ", " << bottomCollision << endl; */
+	if (bottomCollision) 
 		m->move(0, bottomDistance);
-	}
-	else if (topCollision) {
-		/*cout << "top collision" << endl;
-		cout << "rightDistance: " << rightDistance << ", " << rightCollision << endl;
-		cout << "leftDistance: " << leftDistance << ", " << leftCollision << endl;
-		cout << "topDistance: " << topDistance << ", " << topCollision << endl;
-		cout << "bottomDistance: " << bottomDistance << ", " << bottomCollision << endl;*/
+	else if (topCollision)
 		m->move(0, -topDistance);
-	}
-	else if (leftCollision) {
-		/*cout << "left collision" << endl;
-		cout << "rightDistance: " << rightDistance << ", " << rightCollision << endl;
-		cout << "leftDistance: " << leftDistance << ", " << leftCollision << endl;
-		cout << "topDistance: " << topDistance << ", " << topCollision << endl;
-		cout << "bottomDistance: " << bottomDistance << ", " << bottomCollision << endl; */
-		m->move(-leftDistance, 0);
-	}
-	else if (rightCollision) {
-		/*cout << "right collision" << endl;
-		cout << "rightDistance: " << rightDistance << ", " << rightCollision << endl;
-		cout << "leftDistance: " << leftDistance << ", " << leftCollision << endl;
-		cout << "topDistance: " << topDistance << ", " << topCollision << endl;
-		cout << "bottomDistance: " << bottomDistance << ", " << bottomCollision << endl; */
+	if (rightCollision) 
 		m->move(rightDistance, 0);
-	}
+	else if (leftCollision)
+		m->move(-leftDistance, 0);
 }
 
 
