@@ -105,8 +105,10 @@ void Quadtree::insert(Sprite* sprite)
 		int i = 0;
 		while (i < objects.size()) {
 			int index = getIndex(objects.at(i));
-			//cout << "objects size: " << objects.size() << ", i: " << i << ", index: " << index << ", level: " << level << endl;
+			cout << "index: " << index << endl;
+			cout << "level: " << level << endl;
 			if (index != -1) {
+				cout << nodes[index]->level << endl;
 				nodes[index]->insert(objects.at(i));
 				objects.erase(objects.begin() + i);
 				objects.shrink_to_fit();
@@ -140,9 +142,6 @@ vector<Sprite*>* Quadtree::retrieve(vector<Sprite*>* returnObjects, Sprite* spri
 
 	for(int i = 0; i < objects.size(); i++) 
 		returnObjects->push_back(objects.at(i));
-	cout << "returning " << returnObjects->size() << endl;
-	cout << "deminsions of this node " << 1600 / (level + 1) << ", " << 800 / (level + 1) << endl;
-	cout << "sprite: " << sprite->getGlobalBounds().left << ", " << sprite->getGlobalBounds().top << endl;
-	cout << "returning from level : " << level << ", node :" << index << endl;
+
 	return returnObjects;
 }

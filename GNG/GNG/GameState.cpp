@@ -113,7 +113,7 @@ void GameState::loadLevel(Level level) {
 		player->setScale(3, 3);
 
 		//set up quadtree
-		quadtree = new Quadtree(0, FloatRect(0, 0, 1600, 800));// mapWidthInBlocks * 50, mapHeightInBlocks * 50));
+		quadtree = new Quadtree(0, FloatRect(0, -sizeOfQuadtree/2, sizeOfQuadtree, sizeOfQuadtree));
 
 		//player 1 + score
 		int startX = 40;
@@ -374,26 +374,22 @@ void GameState::updateCenter(View* view) {
 	view->setCenter(center);
 }
 
+//uses quad tree to check for intersections between sprites
 void GameState::checkCollisions() {
 	vector<Sprite*>* returnObjects = new vector<Sprite*>();
 	for (int i = 0; i < mobs.size(); i++) {
 		returnObjects->clear();
 		returnObjects = quadtree->retrieve(returnObjects, mobs.at(i));
 		if (returnObjects == NULL) {
-			for (int k = 0; k < blocks.size(); k++) {
-				if (blocks.at(i)->getTeam() == none) {
+			for (int k = 0; k < blocks.size(); k++) 
+				if (blocks.at(i)->getTeam() == none) 
 					if (blocks.at(k)->getGlobalBounds().intersects(mobs.at(i)->getGlobalBounds()))
 						fixCollision(mobs.at(i), blocks.at(k));
-				}
-			}
 		}
 		else {
-			for (int x = 0; x < returnObjects->size(); x++) {
-				cout << "returnObject: " << x << ": " << returnObjects->at(x)->getGlobalBounds().left
-					<< ", " << returnObjects->at(x)->getGlobalBounds().top << endl;
+			for (int x = 0; x < returnObjects->size(); x++) 
 				if (mobs.at(i)->getGlobalBounds().intersects(returnObjects->at(x)->getGlobalBounds()))
 					fixCollision(mobs.at(i), returnObjects->at(x));
-			}
 		}
 	}
 	if (returnObjects != NULL) {
@@ -456,8 +452,11 @@ void GameState::updateQuadtree() {
 	quadtree->clear();
 	for (int i = 0; i < mobs.size(); i++) 
 		quadtree->insert(mobs.at(i));
-	for (int i = 0; i < blocks.size(); i++) 
+	for (int i = 0; i < blocks.size(); i++) {
+		cout << i << endl;
+
 		quadtree->insert(blocks.at(i));
+	}
 }
 
 

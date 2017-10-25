@@ -49,6 +49,8 @@ public:
 	static vector<int> getIntsFromListSeperatedBySpaces(string list);
 	static const int mapWidthInBlocks = 200;
 	static const int mapHeightInBlocks = 16;
+	static const int sizeOfQuadtree = 10000;
+	static const int sizeOfBlock = 50;
 private: 
 	Quadtree* quadtree;
 	void clearVectors();

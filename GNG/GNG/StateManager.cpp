@@ -55,7 +55,7 @@ void StateManager::draw() {
 		if (currentState->mobs.at(i) != nullptr)
 			window->draw(*currentState->mobs.at(i));
 
-	RectangleShape rectangle(sf::Vector2f(1600, 1));
+	/*RectangleShape rectangle(sf::Vector2f(1600, 1));
 	rectangle.setPosition(sf::Vector2f(0, 200));
 	window->draw(rectangle);
 	RectangleShape rectangle2(sf::Vector2f(1600, 1));
@@ -72,7 +72,7 @@ void StateManager::draw() {
 	window->draw(rectangle5);
 	RectangleShape rectangle6(sf::Vector2f(1, 800));
 	rectangle6.setPosition(sf::Vector2f(1200, 0));
-	window->draw(rectangle6);
+	window->draw(rectangle6);*/
 
 	window->display();
 }
