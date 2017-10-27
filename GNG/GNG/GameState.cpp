@@ -108,7 +108,7 @@ void GameState::loadLevel(Level level) {
 		levelEnd = StateManager::shared().getScreenSize().x;
 
 		//Set up arthur
-		player = new Mob("arthur.png", 134, 600, 18, 30);
+		player = new Mob("arthur.png", false, 134, 600, 18, 30);
 		player->setTeam(friendly);
 		player->setScale(3, 3);
 
@@ -233,6 +233,7 @@ void GameState::loadLevel(Level level) {
 					temp2->setScale(0.5, 0.5);
 					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 3);
 					temp2->setScale(2, 2);
+					temp2->setTeam(Team::background);
 					break;
 				}
 				case 7: {
@@ -241,6 +242,7 @@ void GameState::loadLevel(Level level) {
 					temp2->setScale(0.5, 0.5);
 					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 2);
 					temp2->setScale(1.5, 1.5);
+					temp2->setTeam(Team::background);
 					break;
 				}
 				case 8: {
@@ -249,6 +251,7 @@ void GameState::loadLevel(Level level) {
 					temp2->setScale(0.5, 0.5);
 					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 3);
 					temp2->setScale(-2, 2);
+					temp2->setTeam(Team::background);
 					break;
 				}
 				case 9: {
@@ -257,15 +260,26 @@ void GameState::loadLevel(Level level) {
 					temp2->setScale(0.5, 0.5);
 					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 2);
 					temp2->setScale(-1.5, 1.5);
+					temp2->setTeam(Team::background);
+
 					break;
 				}
 				case 10:
 					temp = new Block("/blocks/water.png");
+				case 11:
+					temp = new Block("/blocks/bigDirt.bmp");
+					break;
+				case 12:
+					temp2 = new Block("/blocks/largeGrassdirt.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * sizeOfBlock, y * sizeOfBlock);
+					temp2->setTeam(none);
+					break;
 				default:
 					break;
 				}
 				if (temp2 != nullptr) {
-					if (temp2->getTeam() == 0)
+					if (temp2->getTeam() == Team::background)
 						background.push_back(temp2);
 					else
 						blocks.push_back(temp2);

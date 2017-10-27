@@ -14,7 +14,7 @@ class Block : public Sprite
 {
 public:
 	Block();
-	Block(string textureName, float x = 0, float y = 0, float width = -1, float height = -1);
+	Block(string textureName, bool repeated = false, float x = 0, float y = 0, float width = -1, float height = -1);
 	~Block();
 	
 	void setSprite(string textureName, float x = 0, float y = 0, float width = -1, float height = -1);
@@ -29,6 +29,7 @@ public:
 	Vector2f getVelocity();
 	void setVelocity(Vector2f t);
 protected:
+	bool repeated = false;
 	Team team = background;
 	string name;
 	Texture blockTexture;

@@ -9,7 +9,8 @@ using namespace std;
 Block::Block() {
 }
 
-Block::Block(string textureName, float x, float y, float width, float height) {
+Block::Block(string textureName, bool repeated, float x, float y, float width, float height) {
+	this->repeated = repeated;
 	setSprite(textureName, x, y, width, height);
 }
 
@@ -24,7 +25,7 @@ void Block::setSprite(string textureName, float x, float y, float width, float h
 	if (!texture.loadFromFile(resourceName)) {
 		cout << "error loading texture: " << textureName << endl;
 	}
-
+	texture.setRepeated(repeated);
 	name = textureName;
 	size = texture.getSize();
 	blockTexture = texture;

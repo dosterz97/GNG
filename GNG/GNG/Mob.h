@@ -11,6 +11,7 @@ class Mob : public Block
 {
 public:
 	Mob();
+	Mob(string textureName, bool repeated = false, float x = 0, float y = 0, float width = -1, float height = -1);
 	Mob(string textureName, float x = 0, float y = 0, float width = -1, float height = -1);
 	~Mob();
 
@@ -18,6 +19,7 @@ public:
 	void moveMob();
 
 private:
+	bool repeated = false;
 	Texture mobTexture;
 	int life = 1;
 };

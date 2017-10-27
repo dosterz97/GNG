@@ -9,20 +9,24 @@ using namespace std;
 Mob::Mob() {
 }
 
-Mob::Mob(string textureName, float x, float y, float width, float height) {
+Mob::Mob(string textureName, bool repeated, float x, float y, float width, float height) {
+	this->repeated = repeated;
 	this->setSprite(textureName, x, y, width, height);
 }
+
 
 Mob::~Mob() {
 }
 
 void Mob::setSprite(string textureName, float x, float y, float width, float height) {
-	sf::Texture texture;
+	Texture texture;
+	
 	string resourceName = "../Resources/" + textureName;
 	if (!texture.loadFromFile(resourceName)) {
 		cout << "error loading texture: " << textureName << endl;
 	}
-	
+	texture.setRepeated(repeated);
+
 	name = textureName;
 	size = texture.getSize();
 	mobTexture = texture;
