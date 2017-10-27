@@ -18,7 +18,7 @@ public:
 	vector<Sprite*>* retrieve(vector<Sprite*>* returnObjects, Sprite* sprite);
 
 private:
-	const int MAX_OBJECTS = 10;
+	const int MAX_OBJECTS = 30;
 	const int MAX_LEVELS = 5;
 
 	int level;

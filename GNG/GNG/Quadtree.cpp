@@ -105,10 +105,7 @@ void Quadtree::insert(Sprite* sprite)
 		int i = 0;
 		while (i < objects.size()) {
 			int index = getIndex(objects.at(i));
-			cout << "index: " << index << endl;
-			cout << "level: " << level << endl;
 			if (index != -1) {
-				cout << nodes[index]->level << endl;
 				nodes[index]->insert(objects.at(i));
 				objects.erase(objects.begin() + i);
 				objects.shrink_to_fit();

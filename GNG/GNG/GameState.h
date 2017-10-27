@@ -60,6 +60,6 @@ private:
 	Vector2f centerOfView = Vector2f(400, 400);
 	int map[mapWidthInBlocks][mapHeightInBlocks] = {};
 	bool canMove = false;
-	int levelEnd = 0;
+	int levelEnd = 0, levelBeginning = 0;
 };
 
