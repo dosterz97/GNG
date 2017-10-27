@@ -110,7 +110,7 @@ void GameState::loadLevel(Level level) {
 		//Set up arthur
 		player = new Mob("arthur.png", false, 134, 600, 18, 30);
 		player->setTeam(friendly);
-		player->setScale(3, 3);
+		player->setScale(2.75, 2.75);
 
 		//set up quadtree
 		quadtree = new Quadtree(0, FloatRect(0, -sizeOfQuadtree/2, sizeOfQuadtree, sizeOfQuadtree));
@@ -198,9 +198,10 @@ void GameState::loadLevel(Level level) {
 	
 	case level1: {
 		clearVectors();
-		levelEnd = 1600;
+		levelEnd = 8650;
+		levelBeginning = 50;
 		//set up arthur
-		player->setPosition(100, (StateManager::shared().getScreenSize().y / 16 * 14 - player->getGlobalBounds().height));
+		player->setPosition(200, (StateManager::shared().getScreenSize().y / 16 * 14 - player->getGlobalBounds().height));
 		mobs.push_back(player);
 
 		readMapFromFile("1.txt");
@@ -208,6 +209,7 @@ void GameState::loadLevel(Level level) {
 			for (int x = 0; x < mapWidthInBlocks; x++) {
 				Block* temp = nullptr;
 				Block* temp2 = nullptr;
+				Block* temp3 = nullptr;
 				switch (map[x][y]) {
 				case 0:
 					break;
@@ -231,43 +233,46 @@ void GameState::loadLevel(Level level) {
 					temp = new Block("/blocks/fence.png");
 					temp2 = new Block("/blocks/tree1.png");
 					temp2->setScale(0.5, 0.5);
-					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 3);
-					temp2->setScale(2, 2);
-					temp2->setTeam(Team::background);
-					break;
-				}
-				case 7: {
-					temp = new Block("/blocks/fence.png");
-					temp2 = new Block("/blocks/tree2.png");
-					temp2->setScale(0.5, 0.5);
 					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 2);
 					temp2->setScale(1.5, 1.5);
 					temp2->setTeam(Team::background);
 					break;
 				}
-				case 8: {
-					temp = new Block("/blocks/fence.png");
-					temp2 = new Block("/blocks/tree1.png");
+				case 7: {
+					temp3 = new Block("/blocks/fence.png");
+					temp2 = new Block("/blocks/tree2.png");
 					temp2->setScale(0.5, 0.5);
-					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 3);
-					temp2->setScale(-2, 2);
+					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 1.5);
+					temp2->setScale(1.25, 1.25);
 					temp2->setTeam(Team::background);
 					break;
 				}
-				case 9: {
-					temp = new Block("/blocks/fence.png");
-					temp2 = new Block("/blocks/tree2.png");
+				case 8: {
+					temp3 = new Block("/blocks/fence.png");
+					temp2 = new Block("/blocks/tree1.png");
 					temp2->setScale(0.5, 0.5);
 					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 2);
 					temp2->setScale(-1.5, 1.5);
 					temp2->setTeam(Team::background);
-
+					break;
+				}
+				case 9: {
+					temp3 = new Block("/blocks/fence.png");
+					temp2 = new Block("/blocks/tree2.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * temp2->getGlobalBounds().width, y * temp2->getGlobalBounds().height - temp2->getGlobalBounds().height * 1.5);
+					temp2->setScale(-1.25, 1.25);
+					temp2->setTeam(Team::background);
 					break;
 				}
 				case 10:
 					temp = new Block("/blocks/water.png");
+					break;
 				case 11:
-					temp = new Block("/blocks/bigDirt.bmp");
+					temp2 = new Block("/blocks/largeDirt.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * sizeOfBlock, y * sizeOfBlock);
+					temp2->setTeam(none);
 					break;
 				case 12:
 					temp2 = new Block("/blocks/largeGrassdirt.png");
@@ -275,8 +280,82 @@ void GameState::loadLevel(Level level) {
 					temp2->setPosition(x * sizeOfBlock, y * sizeOfBlock);
 					temp2->setTeam(none);
 					break;
+				case 13:
+					temp = new Block("/blocks/grave.png");
+					temp->setTeam(none);
+					break;
+				case 14:
+					temp = new Block("/blocks/vinerock.png");
+					break;
+				case 15:
+					temp = new Block("/blocks/grassrock.png");
+					temp->setTeam(none);
+					break;
+				case 16:
+					temp = new Block("/blocks/rock.png");
+					break;
+				case 17:
+					temp = new Block("/blocks/rock.png");
+					temp2 = new Block("/blocks/grass.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * sizeOfBlock, y * sizeOfBlock);
+					break;
+				case 18:
+					temp = new Block("/blocks/grass.png");
+					break;
+				case 19:
+					temp = new Block("/blocks/grassrock.png");
+					temp2 = new Block("/blocks/ladder.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * sizeOfBlock, y * sizeOfBlock);
+					break;
+				case 20:
+					temp = new Block("/blocks/rock.png");
+					temp2 = new Block("/blocks/ladder.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * sizeOfBlock, y * sizeOfBlock);
+					break;
+				case 21:
+					temp = new Block("/blocks/rock.png");
+					temp2 = new Block("/blocks/ladder.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * sizeOfBlock, y * sizeOfBlock);
+					temp3 = new Block("/blocks/grass.png");
+					break;
+				case 22:
+					temp3 = new Block("/blocks/grave.png");
+					temp3->setTeam(none);
+					temp = new Block("/blocks/rock.png");
+					break;
+				case 23:
+					temp = new Block("/blocks/stone.png");		
+					temp3 = new Block("/blocks/vines.png");
+					temp3->setTeam(Team::background);
+					break;
+				case 24:
+					temp2 = new Block("/blocks/metaldoor.png");
+					temp2->setPosition(x * sizeOfBlock, y * sizeOfBlock);
+					temp2->setScale(0.5, 1);
+					break;
+				case 25:
+					temp = new Block("/blocks/stone.png");
+					temp3 = new Block("/blocks/grass.png");
+					temp2 = new Block("/blocks/vines.png");
+					temp2->setScale(0.5, 0.5);
+					temp2->setPosition(x * sizeOfBlock, y * sizeOfBlock);
+					temp2->setTeam(Team::background);
+					break;
 				default:
 					break;
+				}
+
+				if (temp != nullptr) {
+					temp->setScale(0.5, 0.5);
+					temp->setPosition(x * sizeOfBlock, y * sizeOfBlock);
+					if (temp->getTeam() == 0)
+						background.push_back(temp);
+					else 
+						blocks.push_back(temp);
 				}
 				if (temp2 != nullptr) {
 					if (temp2->getTeam() == Team::background)
@@ -284,19 +363,16 @@ void GameState::loadLevel(Level level) {
 					else
 						blocks.push_back(temp2);
 				}
-				if (temp != nullptr) {
-					temp->setScale(0.5, 0.5);
-					temp->setPosition(x * temp->getGlobalBounds().width, y * temp->getGlobalBounds().height);
-					if (temp->getTeam() == 0)
-						background.push_back(temp);
-					else 
-						blocks.push_back(temp);
+				if (temp3 != nullptr) {
+					temp3->setScale(0.5, 0.5);
+					temp3->setPosition(x * sizeOfBlock, y * sizeOfBlock);
+					if (temp3->getTeam() == Team::background)
+						background.push_back(temp3);
+					else
+						blocks.push_back(temp3);
 				}
-				
 			}
 		}
-
-
 		break;
 	}
 	default:
@@ -380,8 +456,8 @@ void GameState::updateCenter(View* view) {
 
 	if(level == home)
 		center = Vector2f(StateManager::shared().getScreenSize().x / 2, StateManager::shared().getScreenSize().y / 2);
-	else if (center.x < StateManager::shared().getScreenSize().x / 2) 
-		center.x = StateManager::shared().getScreenSize().x / 2;
+	else if (center.x < StateManager::shared().getScreenSize().x / 2 + levelBeginning) 
+		center.x = StateManager::shared().getScreenSize().x / 2 + levelBeginning;
 	else if (center.x + StateManager::shared().getScreenSize().x / 2 > levelEnd) 
 		center.x = levelEnd - StateManager::shared().getScreenSize().x / 2;
 
@@ -466,11 +542,9 @@ void GameState::updateQuadtree() {
 	quadtree->clear();
 	for (int i = 0; i < mobs.size(); i++) 
 		quadtree->insert(mobs.at(i));
-	for (int i = 0; i < blocks.size(); i++) {
-		cout << i << endl;
-
+	for (int i = 0; i < blocks.size(); i++) 
 		quadtree->insert(blocks.at(i));
-	}
+
 }
 
 
