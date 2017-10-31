@@ -37,6 +37,7 @@ public:
 	void fixCollision(Mob* m, Block* b);
 	void fixCollision(Mob* m, Sprite* b);
 	void updateQuadtree();
+	void attack(Mob*);
 
 	vector<Drawable*> background;
 	vector<Mob*> mobs;

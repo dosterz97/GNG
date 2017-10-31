@@ -15,10 +15,11 @@ public:
 	void split();
 	int getIndex(Sprite* sprite);
 	void insert(Sprite* sprite);
+	void printQuadtree();
 	vector<Sprite*>* retrieve(vector<Sprite*>* returnObjects, Sprite* sprite);
 
 private:
-	const int MAX_OBJECTS = 30;
+	const int MAX_OBJECTS = 20;
 	const int MAX_LEVELS = 5;
 
 	int level;

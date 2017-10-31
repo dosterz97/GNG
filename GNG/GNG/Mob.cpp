@@ -31,13 +31,34 @@ void Mob::setSprite(string textureName, float x, float y, float width, float hei
 	size = texture.getSize();
 	mobTexture = texture;
 	setTexture(mobTexture);
-	if (width > 0 || height > 0) {
+	if (width > 0 && height > 0) {
 		setTextureRect(IntRect(x, y, width, height));
 		size = Vector2u(width, height);
 	}
 }
 
 void Mob::moveMob() {
+}
+
+void Mob::attack(int step) {
+	lastAttack = step;
+}
+
+void Mob::setWeapon(Weapon w) {
+	weapon = w;
+}
+
+Weapon Mob::getWeapon() {
+	return weapon;
+}
+
+int Mob::getLastAttack() {
+	return lastAttack;
+}
+
+Direction Mob::getDirection()
+{
+	return facing;
 }
 
 

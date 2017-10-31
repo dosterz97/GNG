@@ -91,6 +91,7 @@ void Quadtree::insert(Sprite* sprite)
 		int index = getIndex(sprite);
 
 		if (index != -1) {
+			nodes[index]->level = level + 1;
 			nodes[index]->insert(sprite);
 			return;
 		}
@@ -106,6 +107,7 @@ void Quadtree::insert(Sprite* sprite)
 		while (i < objects.size()) {
 			int index = getIndex(objects.at(i));
 			if (index != -1) {
+				nodes[index]->level = level + 1;
 				nodes[index]->insert(objects.at(i));
 				objects.erase(objects.begin() + i);
 				objects.shrink_to_fit();
@@ -113,6 +115,30 @@ void Quadtree::insert(Sprite* sprite)
 			else {
 				i++;
 			}
+		}
+	}
+}
+
+void Quadtree::printQuadtree() {
+	for (int i = 0; i < level; i++)
+		cout << "  ";
+	cout << objects.size() << " number of items on level " << level << endl;
+
+	for (int k = 0; k < objects.size(); k++) {
+		for (int i = 0; i < level; i++)
+			cout << "  ";
+		cout << "x,y " << objects.at(k)->getGlobalBounds().left << "," << objects.at(k)->getGlobalBounds().top << endl;
+	}
+
+	for (int k = 0; k < 4; k++) {
+		for (int i = 0; i < level; i++)
+			cout << "  ";
+		if (nodes[k] == NULL) {
+			cout << k << " node is NULL" << endl;
+		}
+		else {
+			cout << k << " node isn't NULL" << endl;
+			nodes[k]->printQuadtree();
 		}
 	}
 }

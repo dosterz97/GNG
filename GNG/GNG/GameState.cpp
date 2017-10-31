@@ -17,6 +17,8 @@ GameState::GameState() {
 GameState::~GameState() {
 }
 
+//called by state manager
+//given an event calls the functions or sets appropriate variables
 void GameState::processEvent(Event e) {
 	switch (e.type) {
 	case Event::KeyPressed: {
@@ -53,6 +55,11 @@ void GameState::processEvent(Event e) {
 			break;
 		case Keyboard::Space:
 			break;
+		case Keyboard::C:
+			if (player->getLastAttack() + 30 < stepCount) {
+				attack(player);
+			}
+			break;
 		}
 		break;
 	}
@@ -84,21 +91,22 @@ void GameState::processEvent(Event e) {
 	}
 }
 
+//called every frame
+//'steps' the game and applys constant game logic
 void GameState::step(int stepCount, View* view) {
-	if (stepCount == 0) {
+	this->stepCount = stepCount;
+	if (stepCount == 0) 
 		loadLevel(home);
-	}
 	moveMobs();
 	updateQuadtree();
 	checkCollisions();
-	if (level == home) {
+	if (level == home) 
 		updateHomeScreen(stepCount);
-	}
 	
 	updateCenter(view);
 }
 
-
+//loads all the level entities
 void GameState::loadLevel(Level level) {
 	switch (level) {
 	case home: {
@@ -202,6 +210,7 @@ void GameState::loadLevel(Level level) {
 		levelBeginning = 50;
 		//set up arthur
 		player->setPosition(200, (StateManager::shared().getScreenSize().y / 16 * 14 - player->getGlobalBounds().height));
+		player->setWeapon(spear);
 		mobs.push_back(player);
 
 		readMapFromFile("1.txt");
@@ -218,7 +227,7 @@ void GameState::loadLevel(Level level) {
 					break;
 				case 2:
 					temp = new Block("/blocks/grassdirt.bmp");
-					temp->setTeam(none);
+					temp->setTeam(Team::none);
 					break;
 				case 3:
 					temp = new Block("/blocks/fence.png");
@@ -272,24 +281,24 @@ void GameState::loadLevel(Level level) {
 					temp2 = new Block("/blocks/largeDirt.png");
 					temp2->setScale(0.5, 0.5);
 					temp2->setPosition(x * sizeOfBlock, y * sizeOfBlock);
-					temp2->setTeam(none);
+					temp2->setTeam(Team::none);
 					break;
 				case 12:
 					temp2 = new Block("/blocks/largeGrassdirt.png");
 					temp2->setScale(0.5, 0.5);
 					temp2->setPosition(x * sizeOfBlock, y * sizeOfBlock);
-					temp2->setTeam(none);
+					temp2->setTeam(Team::none);
 					break;
 				case 13:
 					temp = new Block("/blocks/grave.png");
-					temp->setTeam(none);
+					temp->setTeam(Team::none);
 					break;
 				case 14:
 					temp = new Block("/blocks/vinerock.png");
 					break;
 				case 15:
 					temp = new Block("/blocks/grassrock.png");
-					temp->setTeam(none);
+					temp->setTeam(Team::none);
 					break;
 				case 16:
 					temp = new Block("/blocks/rock.png");
@@ -324,7 +333,7 @@ void GameState::loadLevel(Level level) {
 					break;
 				case 22:
 					temp3 = new Block("/blocks/grave.png");
-					temp3->setTeam(none);
+					temp3->setTeam(Team::none);
 					temp = new Block("/blocks/rock.png");
 					break;
 				case 23:
@@ -403,7 +412,6 @@ void GameState::clearVectors() {
 	background.clear();
 	screenRotatingMessages.clear();
 }
-
 
 void GameState::moveMobs() {
 	for (int i = 0; i < mobs.size(); i++) {
@@ -545,6 +553,48 @@ void GameState::updateQuadtree() {
 	for (int i = 0; i < blocks.size(); i++) 
 		quadtree->insert(blocks.at(i));
 
+}
+
+void GameState::attack(Mob* m) {
+	m->attack(stepCount);
+	Direction facing = m->getDirection();
+
+	Mob* temp = nullptr;
+	switch (m->getWeapon()) {
+	case Weapon::empty:
+		return;
+		break;
+	case axe:
+		temp = new Mob("arthur.png", false, 152, 294, 16, 16);
+		temp->setVelocity(sf::Vector2f(24, 3));
+		break;
+	case spear:
+		temp = new Mob("arthur.png", false, 12, 314, 32, 8);
+		temp->setVelocity(sf::Vector2f(20, 2));
+		break;
+	case knife:
+		temp = new Mob("arthur.png", false, 159, 314, 16, 8);
+		temp->setVelocity(sf::Vector2f(30, 1));
+		break;
+	case fire:
+		temp = new Mob("arthur.png", false, 100, 327, 16, 16);
+		temp->setVelocity(sf::Vector2f(16, 3));
+		break;
+	case shield:
+		temp = new Mob("arthur.png", false, 87, 348, 12, 16);
+		temp->setVelocity(sf::Vector2f(12, 1));
+		break;
+	}
+
+	if (facing == Direction::left) {
+		temp->setVelocity(sf::Vector2f(temp->getVelocity().x * -1, temp->getVelocity().y));
+	}
+
+	if (temp != nullptr) {
+		temp->setScale(2, 2);
+		temp->setPosition(m->getGlobalBounds().left, m->getGlobalBounds().top);
+		mobs.push_back(temp);
+	}
 }
 
 
