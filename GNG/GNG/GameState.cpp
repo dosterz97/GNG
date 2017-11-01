@@ -492,10 +492,12 @@ void GameState::checkCollisions() {
 					}
 		}
 		else {
-			for (int x = 0; x < returnObjects->size(); x++) 
+			for (int x = 0; x < returnObjects->size(); x++) {
 				if (mobs.at(i)->getGlobalBounds().intersects(returnObjects->at(x)->getGlobalBounds())) {
-					fixCollision(mobs.at(i), returnObjects->at(x), &i);
+					fixCollision(mobs.at(i), returnObjects->at(x), &x);
+					break;
 				}
+			}
 		}
 	}
 	if (returnObjects != NULL) {
@@ -532,17 +534,17 @@ void GameState::fixCollision(Mob* m, Block* b) {
 //in orientation in respect to the mob
 void GameState::fixCollision(Mob* m, Sprite* b, int* index) {
 
-	if (m->getTeam() == Team::powerupFriendly) {
-		Mob* bAsMob = nullptr;
-			
-		bAsMob = dynamic_cast<Mob*>(b);
+	Mob* bAsMob = nullptr;
+	bAsMob = dynamic_cast<Mob*>(b);
+	if (m->getTeam() == Team::powerupFriendly) {	
 		if (bAsMob == 0) {
 			//kill powerup
 			for (int i = 0; i < mobs.size(); i++) {
 				if (m == mobs.at(i)) {
 					mobs.erase(mobs.begin() + i);
 					mobs.shrink_to_fit();
-					*index -= 1;
+					if (*index > 0)
+						*index -= 1;
 					return;
 				}
 			}
@@ -556,25 +558,53 @@ void GameState::fixCollision(Mob* m, Sprite* b, int* index) {
 						if (bAsMob == mobs.at(i)) {
 							mobs.erase(mobs.begin() + i);
 							mobs.shrink_to_fit();
-							*index -= 1;
+							if (*index > 0)
+								*index -= 1;
 						}
 					}
 				}
-
 				//kill powerup
 				for (int i = 0; i < mobs.size(); i++) {
 					if (m == mobs.at(i)) {
 						mobs.erase(mobs.begin() + i);
 						mobs.shrink_to_fit();
-						*index -= 1;
+						if (*index > 0)
+							*index -= 1;
 						return;
 					}
 				}
 			}
+		}		
+	}
+	else if (bAsMob != 0) { //mob hit mob
+		if (m->getTeam() != bAsMob->getTeam()) {
+			//mob loses health, dies if life == 0
+			m->loseLife();
+			if (m->getLife() == 0) {
+				for (int i = 0; i < mobs.size(); i++) {
+					if (m == mobs.at(i)) {
+						mobs.erase(mobs.begin() + i);
+						mobs.shrink_to_fit();
+						if (*index > 0)
+							*index -= 1;
+						break;
+					}
+				}
+			}
+			//mob loses health, dies if life == 0
+			bAsMob->loseLife();
+			if (bAsMob->getLife() == 0) {
+				for (int i = 0; i < mobs.size(); i++) {
+					if (bAsMob == mobs.at(i)) {
+						mobs.erase(mobs.begin() + i);
+						mobs.shrink_to_fit();
+						if (*index > 0)
+							*index -= 1;
+						break;
+					}
+				}
+			}
 		}
-
-
-		
 	}
 	else {
 		FloatRect mRect = m->getGlobalBounds();
