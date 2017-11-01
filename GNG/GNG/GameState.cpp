@@ -494,8 +494,10 @@ void GameState::checkCollisions() {
 		else {
 			for (int x = 0; x < returnObjects->size(); x++) {
 				if (mobs.at(i)->getGlobalBounds().intersects(returnObjects->at(x)->getGlobalBounds())) {
+					int tempX = x;
 					fixCollision(mobs.at(i), returnObjects->at(x), &x);
-					break;
+					if (tempX != x) 
+						break;
 				}
 			}
 		}
