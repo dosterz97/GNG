@@ -7,7 +7,8 @@ using namespace std;
 
 enum Team {
 	background, none,
-	friendly, enemy
+	friendly, enemy, 
+	powerupFriendly, powerupEnemy
 };
 
 class Block : public Sprite

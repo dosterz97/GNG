@@ -17,33 +17,36 @@ e:\gng\gng\gng\gamestate.cpp(191): warning C4244: 'initializing': conversion fro
 e:\gng\gng\gng\gamestate.cpp(192): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 e:\gng\gng\gng\gamestate.cpp(200): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 e:\gng\gng\gng\gamestate.cpp(201): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(254): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(272): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(283): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(260): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(278): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 e:\gng\gng\gng\gamestate.cpp(289): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(310): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(319): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(295): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(316): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 e:\gng\gng\gng\gamestate.cpp(325): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 e:\gng\gng\gng\gamestate.cpp(331): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(346): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(354): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(363): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(377): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(400): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(402): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(404): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(337): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(352): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(360): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(369): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(383): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 e:\gng\gng\gng\gamestate.cpp(406): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(407): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(417): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(433): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(453): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(463): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(466): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(468): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(470): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
-e:\gng\gng\gng\gamestate.cpp(478): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(482): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(408): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(410): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(412): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(413): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(423): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(439): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(459): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(469): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(472): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(474): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(476): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+e:\gng\gng\gng\gamestate.cpp(484): warning C4018: '<': signed/unsigned mismatch
 e:\gng\gng\gng\gamestate.cpp(488): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(551): warning C4018: '<': signed/unsigned mismatch
-e:\gng\gng\gng\gamestate.cpp(553): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(495): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(542): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(557): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(567): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(608): warning C4018: '<': signed/unsigned mismatch
+e:\gng\gng\gng\gamestate.cpp(610): warning C4018: '<': signed/unsigned mismatch
   GNG.vcxproj -> E:\GNG\GNG\Debug\GNG.exe

@@ -16,9 +16,6 @@ enum Level {
 	level4, level5, level6 
 };
 
-enum Background {
-	black, grass, dirt
-};
 
 class GameState
 {
@@ -35,7 +32,7 @@ public:
 	void updateCenter(View* view);
 	void checkCollisions();
 	void fixCollision(Mob* m, Block* b);
-	void fixCollision(Mob* m, Sprite* b);
+	void fixCollision(Mob* m, Sprite* b, int* index);
 	void updateQuadtree();
 	void attack(Mob*);
 

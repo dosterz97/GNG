@@ -56,7 +56,7 @@ void GameState::processEvent(Event e) {
 		case Keyboard::Space:
 			break;
 		case Keyboard::C:
-			if (player->getLastAttack() + 30 < stepCount) {
+			if (player->getLastAttack() + 10 < stepCount) {
 				attack(player);
 			}
 			break;
@@ -125,9 +125,9 @@ void GameState::loadLevel(Level level) {
 
 		//player 1 + score
 		int startX = 40;
-		ScreenLetter* player = new ScreenLetter(player1);
-		player->setPosition(startX, 5);
-		background.push_back(player);
+		ScreenLetter* wordPlayer = new ScreenLetter(player1);
+		wordPlayer->setPosition(startX, 5);
+		background.push_back(wordPlayer);
 
 		//top score + score
 		startX = screenW / 2;
@@ -212,6 +212,12 @@ void GameState::loadLevel(Level level) {
 		player->setPosition(200, (StateManager::shared().getScreenSize().y / 16 * 14 - player->getGlobalBounds().height));
 		player->setWeapon(spear);
 		mobs.push_back(player);
+
+		Mob* temp = new Mob("mobs.png", false, 237, 67, 21, 31);
+		temp->setTeam(enemy);
+		temp->setScale(2.75, 2.75);
+		temp->setPosition(400, (StateManager::shared().getScreenSize().y / 16 * 14 - player->getGlobalBounds().height));
+		mobs.push_back(temp);
 
 		readMapFromFile("1.txt");
 		for (int y = 0; y < mapHeightInBlocks; y++) {
@@ -481,13 +487,15 @@ void GameState::checkCollisions() {
 		if (returnObjects == NULL) {
 			for (int k = 0; k < blocks.size(); k++) 
 				if (blocks.at(i)->getTeam() == none) 
-					if (blocks.at(k)->getGlobalBounds().intersects(mobs.at(i)->getGlobalBounds()))
+					if (blocks.at(k)->getGlobalBounds().intersects(mobs.at(i)->getGlobalBounds())) {
 						fixCollision(mobs.at(i), blocks.at(k));
+					}
 		}
 		else {
 			for (int x = 0; x < returnObjects->size(); x++) 
-				if (mobs.at(i)->getGlobalBounds().intersects(returnObjects->at(x)->getGlobalBounds()))
-					fixCollision(mobs.at(i), returnObjects->at(x));
+				if (mobs.at(i)->getGlobalBounds().intersects(returnObjects->at(x)->getGlobalBounds())) {
+					fixCollision(mobs.at(i), returnObjects->at(x), &i);
+				}
 		}
 	}
 	if (returnObjects != NULL) {
@@ -522,28 +530,75 @@ void GameState::fixCollision(Mob* m, Block* b) {
 }
 
 //in orientation in respect to the mob
-void GameState::fixCollision(Mob* m, Sprite* b) {
-	FloatRect mRect = m->getGlobalBounds();
-	FloatRect bRect = b->getGlobalBounds();
+void GameState::fixCollision(Mob* m, Sprite* b, int* index) {
 
-	float rightDistance = bRect.left - (mRect.left + mRect.width);
-	float leftDistance = mRect.left - (bRect.left + bRect.width);
-	float topDistance = mRect.top - (bRect.top + bRect.height);
-	float bottomDistance = bRect.top - (mRect.top + mRect.height);
+	if (m->getTeam() == Team::powerupFriendly) {
+		Mob* bAsMob = nullptr;
+			
+		bAsMob = dynamic_cast<Mob*>(b);
+		if (bAsMob == 0) {
+			//kill powerup
+			for (int i = 0; i < mobs.size(); i++) {
+				if (m == mobs.at(i)) {
+					mobs.erase(mobs.begin() + i);
+					mobs.shrink_to_fit();
+					*index -= 1;
+					return;
+				}
+			}
+		}
+		else {
+			if (bAsMob->getTeam() != Team::friendly && bAsMob->getTeam() != Team::powerupFriendly) {
+				//mob loses health, dies if life == 0
+				bAsMob->loseLife();
+				if (bAsMob->getLife() == 0) {
+					for (int i = 0; i < mobs.size(); i++) {
+						if (bAsMob == mobs.at(i)) {
+							mobs.erase(mobs.begin() + i);
+							mobs.shrink_to_fit();
+							*index -= 1;
+						}
+					}
+				}
 
-	bool rightCollision = rightDistance < 0 && abs(rightDistance) <= abs(m->getVelocity().x) && m->getVelocity().x > 0;
-	bool leftCollision = leftDistance < 0 && abs(leftDistance) <= abs(m->getVelocity().x) && m->getVelocity().x < 0;
-	bool bottomCollision = bottomDistance < 0 && abs(bottomDistance) <= abs(m->getVelocity().y) && m->getVelocity().y > 0;
-	bool topCollision = topDistance < 0 && abs(topDistance) <= abs(m->getVelocity().y) && m->getVelocity().y < 0;
+				//kill powerup
+				for (int i = 0; i < mobs.size(); i++) {
+					if (m == mobs.at(i)) {
+						mobs.erase(mobs.begin() + i);
+						mobs.shrink_to_fit();
+						*index -= 1;
+						return;
+					}
+				}
+			}
+		}
 
-	if (bottomCollision)
-		m->move(0, bottomDistance);
-	else if (topCollision)
-		m->move(0, -topDistance);
-	if (rightCollision)
-		m->move(rightDistance, 0);
-	else if (leftCollision)
-		m->move(-leftDistance, 0);
+
+		
+	}
+	else {
+		FloatRect mRect = m->getGlobalBounds();
+		FloatRect bRect = b->getGlobalBounds();
+
+		float rightDistance = bRect.left - (mRect.left + mRect.width);
+		float leftDistance = mRect.left - (bRect.left + bRect.width);
+		float topDistance = mRect.top - (bRect.top + bRect.height);
+		float bottomDistance = bRect.top - (mRect.top + mRect.height);
+
+		bool rightCollision = rightDistance < 0 && abs(rightDistance) <= abs(m->getVelocity().x) && m->getVelocity().x > 0;
+		bool leftCollision = leftDistance < 0 && abs(leftDistance) <= abs(m->getVelocity().x) && m->getVelocity().x < 0;
+		bool bottomCollision = bottomDistance < 0 && abs(bottomDistance) <= abs(m->getVelocity().y) && m->getVelocity().y > 0;
+		bool topCollision = topDistance < 0 && abs(topDistance) <= abs(m->getVelocity().y) && m->getVelocity().y < 0;
+
+		if (bottomCollision)
+			m->move(0, bottomDistance);
+		else if (topCollision)
+			m->move(0, -topDistance);
+		if (rightCollision)
+			m->move(rightDistance, 0);
+		else if (leftCollision)
+			m->move(-leftDistance, 0);
+	}
 }
 
 void GameState::updateQuadtree() {
@@ -586,11 +641,14 @@ void GameState::attack(Mob* m) {
 		break;
 	}
 
-	if (facing == Direction::left) {
-		temp->setVelocity(sf::Vector2f(temp->getVelocity().x * -1, temp->getVelocity().y));
-	}
-
 	if (temp != nullptr) {
+		if (facing == Direction::left) {
+			temp->setVelocity(sf::Vector2f(temp->getVelocity().x * -1, temp->getVelocity().y));
+		}
+		if (m->getTeam() == Team::friendly)
+			temp->setTeam(Team::powerupFriendly);
+		else if (m->getTeam() == Team::enemy)
+			temp->setTeam(Team::powerupEnemy);
 		temp->setScale(2, 2);
 		temp->setPosition(m->getGlobalBounds().left, m->getGlobalBounds().top);
 		mobs.push_back(temp);

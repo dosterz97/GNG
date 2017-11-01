@@ -61,4 +61,12 @@ Direction Mob::getDirection()
 	return facing;
 }
 
+void Mob::loseLife(int l) {
+	life -= l;
+}
+
+int Mob::getLife() {
+	return life;
+}
+
 

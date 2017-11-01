@@ -30,6 +30,8 @@ public:
 	Weapon getWeapon();
 	int getLastAttack();
 	Direction getDirection();
+	void loseLife(int l = 1);
+	int getLife();
 private:
 	bool repeated = false;
 	Weapon weapon = Weapon::empty;
