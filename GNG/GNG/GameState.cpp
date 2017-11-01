@@ -11,6 +11,8 @@
 using namespace sf;
 using namespace std;
 
+int randomNumber(int min, int max);
+
 GameState::GameState() {
 }
 
@@ -102,7 +104,7 @@ void GameState::step(int stepCount, View* view) {
 	checkCollisions();
 	if (level == home) 
 		updateHomeScreen(stepCount);
-	
+	spawnEnemies();
 	updateCenter(view);
 }
 
@@ -579,7 +581,9 @@ void GameState::fixCollision(Mob* m, Sprite* b, int* index) {
 		}		
 	}
 	else if (bAsMob != 0) { //mob hit mob
-		if (m->getTeam() != bAsMob->getTeam()) {
+		if (m->getTeam() != bAsMob->getTeam()
+			&& bAsMob->getTeam() != Team::powerupFriendly
+			&& bAsMob->getTeam() != Team::powerupEnemy) {
 			//mob loses health, dies if life == 0
 			m->loseLife();
 			if (m->getLife() == 0) {
@@ -687,4 +691,25 @@ void GameState::attack(Mob* m) {
 	}
 }
 
+void GameState::spawnEnemies() {
+	if (level == level1) {
+		if (lastSpawn + 120 < stepCount) {
+			Mob* temp = new Mob("mobs.png", false, 237, 67, 21, 31);
+			temp->setTeam(enemy);
+			temp->setScale(2.75, 2.75);
 
+			float offSet = randomNumber(200, 400);
+			int negative = randomNumber(0, 2);
+			if (negative == 0)
+				offSet *= -1;
+			temp->setPosition(player->getGlobalBounds().left + offSet, (StateManager::shared().getScreenSize().y / 16 * 14 - temp->getGlobalBounds().height));
+
+			mobs.push_back(temp);
+			lastSpawn = stepCount;
+		}
+	}
+}
+
+int randomNumber(int min, int max) {
+	return rand() % (1 + max - min) + min;
+}

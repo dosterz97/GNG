@@ -35,6 +35,7 @@ public:
 	void fixCollision(Mob* m, Sprite* b, int* index);
 	void updateQuadtree();
 	void attack(Mob*);
+	void spawnEnemies();
 
 	vector<Drawable*> background;
 	vector<Mob*> mobs;
@@ -55,6 +56,7 @@ private:
 	Mob* player;
 	Level level;
 	int stepCount;
+	int lastSpawn;
 	Vector2f centerOfView = Vector2f(400, 400);
 	int map[mapWidthInBlocks][mapHeightInBlocks] = {};
 	bool canMove = false;
