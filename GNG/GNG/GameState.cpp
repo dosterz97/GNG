@@ -41,6 +41,7 @@ void GameState::processEvent(Event e) {
 		case Keyboard::Left:
 			if (canMove) {
 				player->setXVelocity(-20);
+				player->setDirection(Direction::left);
 			}
 			break;
 		case Keyboard::S:
@@ -53,12 +54,13 @@ void GameState::processEvent(Event e) {
 		case Keyboard::Right:
 			if (canMove) {
 				player->setXVelocity(20);
+				player->setDirection(Direction::right);
 			}
 			break;
 		case Keyboard::Space:
 			break;
 		case Keyboard::C:
-			if (player->getLastAttack() + 10 < stepCount) {
+			if (player->getLastAttack() + 10 < levelStepCount) {
 				attack(player);
 			}
 			break;
@@ -71,19 +73,19 @@ void GameState::processEvent(Event e) {
 			break;
 		case Keyboard::W:
 		case Keyboard::Up:
-			player->addToVelocity(Vector2f(0, -player->getVelocity().y));
+			player->setYVelocity(0);
 			break;
 		case Keyboard::A:
 		case Keyboard::Left:
-			player->addToVelocity(Vector2f(-player->getVelocity().x, 0));
+			player->setXVelocity(0);
 			break;
 		case Keyboard::S:
 		case Keyboard::Down:
-			player->addToVelocity(Vector2f(0, -player->getVelocity().y));
+			player->setYVelocity(0);
 			break;
 		case Keyboard::D:
 		case Keyboard::Right:
-			player->addToVelocity(Vector2f(-player->getVelocity().x, 0));
+			player->setXVelocity(0);
 			break;
 		case Keyboard::Space:
 			break;
@@ -97,14 +99,16 @@ void GameState::processEvent(Event e) {
 //'steps' the game and applys constant game logic
 void GameState::step(int stepCount, View* view) {
 	this->stepCount = stepCount;
+	levelStepCount++;
 	if (stepCount == 0) 
 		loadLevel(home);
+	//spawnEnemies();
+	updateMobs();
 	moveMobs();
 	updateQuadtree();
 	checkCollisions();
 	if (level == home) 
 		updateHomeScreen(stepCount);
-	spawnEnemies();
 	updateCenter(view);
 }
 
@@ -120,7 +124,8 @@ void GameState::loadLevel(Level level) {
 		//Set up arthur
 		player = new Mob("arthur.png", false, 134, 600, 18, 30);
 		player->setTeam(friendly);
-		player->setScale(2.75, 2.75);
+		player->setScale(2.5, 2.5);
+		player->setMobType(MobType::arthur);
 
 		//set up quadtree
 		quadtree = new Quadtree(0, FloatRect(0, -sizeOfQuadtree/2, sizeOfQuadtree, sizeOfQuadtree));
@@ -211,15 +216,9 @@ void GameState::loadLevel(Level level) {
 		levelEnd = 8650;
 		levelBeginning = 50;
 		//set up arthur
-		player->setPosition(200, (StateManager::shared().getScreenSize().y / 16 * 14 - player->getGlobalBounds().height));
+		player->setPosition(200, (StateManager::shared().getScreenSize().y / 16 * 14 - player->getGlobalBounds().height / 2));
 		player->setWeapon(spear);
 		mobs.push_back(player);
-
-		Mob* temp = new Mob("mobs.png", false, 237, 67, 21, 31);
-		temp->setTeam(enemy);
-		temp->setScale(2.75, 2.75);
-		temp->setPosition(400, (StateManager::shared().getScreenSize().y / 16 * 14 - player->getGlobalBounds().height));
-		mobs.push_back(temp);
 
 		readMapFromFile("1.txt");
 		for (int y = 0; y < mapHeightInBlocks; y++) {
@@ -429,6 +428,7 @@ void GameState::moveMobs() {
 
 void GameState::setLevel(Level newLevel) {
 	level = newLevel;
+	levelStepCount = 0;
 	loadLevel(level);
 }
 
@@ -540,6 +540,9 @@ void GameState::fixCollision(Mob* m, Sprite* b, int* index) {
 
 	Mob* bAsMob = nullptr;
 	bAsMob = dynamic_cast<Mob*>(b);
+
+	//powoerup collisions 
+	//TODO: Enemy powerup collisions
 	if (m->getTeam() == Team::powerupFriendly) {	
 		if (bAsMob == 0) {
 			//kill powerup
@@ -647,7 +650,7 @@ void GameState::updateQuadtree() {
 }
 
 void GameState::attack(Mob* m) {
-	m->attack(stepCount);
+	m->attack(levelStepCount);
 	Direction facing = m->getDirection();
 
 	Mob* temp = nullptr;
@@ -693,19 +696,52 @@ void GameState::attack(Mob* m) {
 
 void GameState::spawnEnemies() {
 	if (level == level1) {
-		if (lastSpawn + 120 < stepCount) {
-			Mob* temp = new Mob("mobs.png", false, 237, 67, 21, 31);
-			temp->setTeam(enemy);
+		if (lastSpawn + framesPerSec * 4 < levelStepCount) {
+			Mob* temp = new Mob("mobs.png", false, 237, 67, 21, 31, levelStepCount);
+			temp->setTeam(Team::friendly);//don't automatically attack untill they climb out
 			temp->setScale(2.75, 2.75);
-
+			temp->setMobType(MobType::zombie);
 			float offSet = randomNumber(200, 400);
 			int negative = randomNumber(0, 2);
 			if (negative == 0)
 				offSet *= -1;
-			temp->setPosition(player->getGlobalBounds().left + offSet, (StateManager::shared().getScreenSize().y / 16 * 14 - temp->getGlobalBounds().height));
+			temp->setPosition(player->getGlobalBounds().left + offSet, (StateManager::shared().getScreenSize().y / 16 * 14 - temp->getGlobalBounds().height / 2));
+			float direction = ((player->getGlobalBounds().left - temp->getGlobalBounds().left) / abs(player->getGlobalBounds().left - temp->getGlobalBounds().left));
+			if (direction < 0)
+				temp->setDirection(Direction::right);
+			else
+				temp->setDirection(Direction::left);
 
+			
 			mobs.push_back(temp);
-			lastSpawn = stepCount;
+			lastSpawn = levelStepCount;
+		}
+	}
+}
+
+void GameState::updateMobs() {
+	for (int i = 0; i < mobs.size(); i++) {
+		switch (mobs.at(i)->getMobType()) {
+		case arthur:
+			mobs.at(i)->stepAnimation(levelStepCount);
+			break;
+		case powerup:
+			break;
+		case zombie: 
+			if (levelStepCount > mobs.at(i)->getCreationStep() + framesPerSec * 5
+				&& mobs.at(i)->getVelocity().x == 0
+				&& levelStepCount > framesPerSec * 0.5) {
+				mobs.at(i)->setTeam(Team::enemy);
+				float direction = ((player->getGlobalBounds().left - mobs.at(i)->getGlobalBounds().left) / abs(player->getGlobalBounds().left - mobs.at(i)->getGlobalBounds().left));
+				if (direction < 0)
+					mobs.at(i)->setDirection(Direction::right);
+				else
+					mobs.at(i)->setDirection(Direction::left);
+				mobs.at(i)->setVelocity(Vector2f(direction * 10, 0));
+			}
+			break;
+		default:
+			break;
 		}
 	}
 }

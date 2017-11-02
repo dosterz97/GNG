@@ -36,6 +36,7 @@ public:
 	void updateQuadtree();
 	void attack(Mob*);
 	void spawnEnemies();
+	void updateMobs();
 
 	vector<Drawable*> background;
 	vector<Mob*> mobs;
@@ -50,12 +51,14 @@ public:
 	static const int mapHeightInBlocks = 16;
 	static const int sizeOfQuadtree = 10000;
 	static const int sizeOfBlock = 50;
+	static const int framesPerSec = 30;
 private: 
 	Quadtree* quadtree;
 	void clearVectors();
 	Mob* player;
 	Level level;
 	int stepCount;
+	int levelStepCount;
 	int lastSpawn;
 	Vector2f centerOfView = Vector2f(400, 400);
 	int map[mapWidthInBlocks][mapHeightInBlocks] = {};

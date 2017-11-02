@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Mob.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GNG.cpp" />
