@@ -33,6 +33,7 @@ public:
 	int getCreationStep();
 	void setXVelocity(float t);
 	void setVelocity(Vector2f t);
+	void setAnimationType(AnimationType t);
 private:
 	bool repeated = false;
 	Weapon weapon = Weapon::empty;

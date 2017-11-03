@@ -6,7 +6,7 @@ using namespace sf;
 using namespace std;
 
 enum AnimationType {
-	stand, duck, walking, jumping, throwing
+	stand, duck, walking, jumping, throwing, climbing, crouchThrowing
 };
 
 enum Weapon {
@@ -29,10 +29,12 @@ public:
 
 	void setFrame(int newFrame);
 	void nextFrame();
+	int getFrameIndex();
 	void setAnimationType(AnimationType t);
 	AnimationType getAnimationType();
 	IntRect getCurrentFrame();
 	vector<IntRect> frames;
+
 
 	bool hasStanding = true;
 	bool hasWalking = false;

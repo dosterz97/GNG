@@ -126,6 +126,7 @@ void GameState::loadLevel(Level level) {
 		player->setTeam(friendly);
 		player->setScale(2.5, 2.5);
 		player->setMobType(MobType::arthur);
+		player->setAnimationType(AnimationType::stand);
 
 		//set up quadtree
 		quadtree = new Quadtree(0, FloatRect(0, -sizeOfQuadtree/2, sizeOfQuadtree, sizeOfQuadtree));
@@ -216,7 +217,7 @@ void GameState::loadLevel(Level level) {
 		levelEnd = 8650;
 		levelBeginning = 50;
 		//set up arthur
-		player->setPosition(200, (StateManager::shared().getScreenSize().y / 16 * 14 - player->getGlobalBounds().height / 2));
+		player->setPosition(200, (StateManager::shared().getScreenSize().y / 16 * 14));
 		player->setWeapon(spear);
 		mobs.push_back(player);
 
@@ -556,32 +557,32 @@ void GameState::fixCollision(Mob* m, Sprite* b, int* index) {
 				}
 			}
 		}
-		else {
-			if (bAsMob->getTeam() != Team::friendly && bAsMob->getTeam() != Team::powerupFriendly) {
-				//mob loses health, dies if life == 0
-				bAsMob->loseLife();
-				if (bAsMob->getLife() == 0) {
-					for (int i = 0; i < mobs.size(); i++) {
-						if (bAsMob == mobs.at(i)) {
-							mobs.erase(mobs.begin() + i);
-							mobs.shrink_to_fit();
-							if (*index > 0)
-								*index -= 1;
-						}
-					}
-				}
-				//kill powerup
+		else if (bAsMob->getTeam() != Team::friendly && bAsMob->getTeam() != Team::powerupFriendly) {
+			//mob loses health, dies if life == 0
+			bAsMob->loseLife();
+			if (bAsMob->getLife() == 0) {
+				cout << bAsMob->getMobType() << " dies " << endl;
 				for (int i = 0; i < mobs.size(); i++) {
-					if (m == mobs.at(i)) {
+					if (bAsMob == mobs.at(i)) {
 						mobs.erase(mobs.begin() + i);
 						mobs.shrink_to_fit();
 						if (*index > 0)
 							*index -= 1;
-						return;
 					}
 				}
 			}
-		}		
+			//kill powerup
+			for (int i = 0; i < mobs.size(); i++) {
+				cout << m->getMobType() << " dies " << endl;
+				if (m == mobs.at(i)) {
+					mobs.erase(mobs.begin() + i);
+					mobs.shrink_to_fit();
+					if (*index > 0)
+						*index -= 1;
+					return;
+				}
+			}
+		}
 	}
 	else if (bAsMob != 0) { //mob hit mob
 		if (m->getTeam() != bAsMob->getTeam()
@@ -688,9 +689,11 @@ void GameState::attack(Mob* m) {
 			temp->setTeam(Team::powerupFriendly);
 		else if (m->getTeam() == Team::enemy)
 			temp->setTeam(Team::powerupEnemy);
+		temp->setMobType(MobType::powerup);
 		temp->setScale(2, 2);
 		temp->setPosition(m->getGlobalBounds().left, m->getGlobalBounds().top);
 		mobs.push_back(temp);
+		player->setAnimationType(AnimationType::throwing);
 	}
 }
 
@@ -705,7 +708,7 @@ void GameState::spawnEnemies() {
 			int negative = randomNumber(0, 2);
 			if (negative == 0)
 				offSet *= -1;
-			temp->setPosition(player->getGlobalBounds().left + offSet, (StateManager::shared().getScreenSize().y / 16 * 14 - temp->getGlobalBounds().height / 2));
+			temp->setPosition(player->getGlobalBounds().left + offSet, (StateManager::shared().getScreenSize().y / 16 * 14));
 			float direction = ((player->getGlobalBounds().left - temp->getGlobalBounds().left) / abs(player->getGlobalBounds().left - temp->getGlobalBounds().left));
 			if (direction < 0)
 				temp->setDirection(Direction::right);

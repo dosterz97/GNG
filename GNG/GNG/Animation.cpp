@@ -12,13 +12,31 @@ Animation::Animation(MobType m) {
 		hasWalking = true;
 		hasJumping = true;
 
+		//stand
 		frames.push_back(IntRect(134, 600, 20, 30));
+
+		//walking
 		frames.push_back(IntRect(5, 601, 20, 30));
 		frames.push_back(IntRect(39, 599, 20, 30));
 		frames.push_back(IntRect(72, 600, 20, 30));
 		frames.push_back(IntRect(102, 600, 20, 30));
-		break;
 
+		//throw
+		frames.push_back(IntRect(5, 633, 20, 30));
+		frames.push_back(IntRect(38, 638, 20, 25));
+
+		//crouch
+		frames.push_back(IntRect(230, 609, 20, 21));
+
+		//crouch throw
+		frames.push_back(IntRect(70, 640, 20, 22));
+		frames.push_back(IntRect(106, 642, 20, 25));
+
+		//jump
+		frames.push_back(IntRect(38, 638, 20, 25));
+		frames.push_back(IntRect(38, 638, 20, 25));
+
+		break;
 	default:
 		break;
 	}
@@ -42,10 +60,12 @@ void Animation::nextFrame() {
 		currentFrame = 0;
 }
 
+int Animation::getFrameIndex() {
+	return currentFrame;
+}
+
 void Animation::setAnimationType(AnimationType t) {
-	if (t != aType) {
-		aType = t;
-	}
+	aType = t;
 }
 
 AnimationType Animation::getAnimationType() {
